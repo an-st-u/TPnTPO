@@ -108,7 +108,7 @@ public: int n, m;
 	
 		}
 
-int MyInt::Test() {
+int MyInt::Test() { //После двух таких функций код будет нечитаем
 	{
 		MyInt A(2),B(3), ans(5),res;
 		res = A + B;
