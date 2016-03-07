@@ -1,23 +1,21 @@
 #include <iostream>
-#include <stdio.h>
+#include <cstdlib>
 
 using namespace std;
 
 class Vector {
 
-private:
-
+public:
     int Dim;
     float *x;
-public:
-
     Vector(){Dim=0; x=NULL;}
     Vector(int Dim);
     Vector(Vector& V);
     Vector(int Dim, float x[]);
     float& operator[](int j){
         if(j < 0 || j >= Dim){
-            cout << "выход за диапазон";
+            cout << "Out of range"<<endl;
+            exit(1);
         }
         return x[j];
     }
@@ -32,10 +30,24 @@ public:
         return (*this);
     }
     ~Vector();
-    Vector operator+ (const Vector &B){ //a+B
+    Vector operator+ (const Vector &B){ //A+B
         Vector buf(Dim);
         for(int i=0; i<Dim; i++)
             buf.x[i] = x[i]+B.x[i];
+        return buf;
+    }
+
+    Vector operator- (const Vector &B){ //A-B
+        Vector buf(Dim);
+        for(int i=0; i<Dim; i++)
+            buf.x[i] = x[i]-B.x[i];
+        return buf;
+    }
+
+    Vector operator* (const Vector &B){ //A*B
+        Vector buf(Dim);
+        for(int i=0; i<Dim; i++)
+            buf.x[i] = x[i]*B.x[i];
         return buf;
     }
 
@@ -52,6 +64,9 @@ public:
             cout << x[i] << endl;
     }
 
+    friend Vector operator*(int t, const Vector &B);
+    friend Vector operator-(int t, const Vector &B);
+    friend Vector operator+(int t, const Vector &B);
 
 };
 
@@ -72,6 +87,27 @@ Vector::Vector(int Dim, float x[]) {
     }
 }
 
+Vector operator* (int t, const Vector &B){
+        Vector buf(B.Dim);
+        for(int i=0; i<B.Dim; i++)
+            buf.x[i] = (float)t*B.x[i];
+        return buf;
+    }
+
+Vector operator+ (int t, const Vector &B){ //a+B
+        Vector buf(B.Dim);
+        for(int i=0; i<B.Dim; i++)
+            buf.x[i] = (float)t+B.x[i];
+        return buf;
+    }
+
+Vector operator- (int t, const Vector &B){ //a+B
+        Vector buf(B.Dim);
+        for(int i=0; i<B.Dim; i++)
+            buf.x[i] = (float)t-B.x[i];
+        return buf;
+    }
+
 
 int  main()
 {
@@ -79,8 +115,8 @@ int  main()
     float y[]={1, 1, 1, -1.4};
     int d = sizeof(x)/4;
     Vector A(d, x),B(d,y),C(d);
-    C=A+B;
-    // C[6] = 1; ошибка!!
+    C=A*B;
     C.show();
+    C[6] = 1;
     return 0;
 }
