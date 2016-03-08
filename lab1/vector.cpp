@@ -114,7 +114,7 @@ Vector::Vector(int Dim, float x[]) {
 
 Vector::Vector (Vector &B){
     Dim=B.Dim;
-    x = new float(Dim);
+    x = new float[Dim];
     for(int i=0; i<Dim; i++)
         x[i] = B.x[i];
 };
