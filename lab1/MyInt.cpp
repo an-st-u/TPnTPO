@@ -24,12 +24,17 @@ public: int n, m;
 			n=B.n;
 			return *this;
 		}
-		MyInt operator- (){ -A // унарный минус
+		MyInt operator- (MyInt B){ // унарный минус
 		MyInt buf;
 		buf.n=-n;
 		return buf;
 		}
 
+		/*MyInt operator+ (MyInt B){ // унарный плюс
+		MyInt buf;
+		buf.n=n;
+		return buf;
+		}*/
 
 		MyInt operator==(const MyInt B){
 		return (n == B.n);
@@ -73,7 +78,8 @@ public: int n, m;
 			MyInt buf;
 			int a=n, b=B.n;
 			if (b == 0){
-			printf("Деление на ноль");
+			//Zero(_null);
+				printf("Деление на 0");
 			}
 			// возможно придется дописать выход за диапазон типа
 			else{
@@ -96,6 +102,15 @@ public: int n, m;
 
 };// MyInt
 
+class Zero:MyInt {
+	public:
+		int null;
+		Zero(int _null){
+		null = _null;
+		}
+};
+
+
 		MyInt operator* (int m, MyInt B){ // бинарное умножение, тип 2*A друг класса
 		MyInt buf;
 		buf.m=m*B.n;
@@ -103,7 +118,7 @@ public: int n, m;
 	
 		}
 
-int MyInt::Test() { 
+int MyInt::Test() {
 	{
 		MyInt A(2),B(3), ans(5),res;
 		res = A + B;
@@ -129,4 +144,3 @@ void main(){
 	printf("Correct result");
 	_getch();
 	}
-
