@@ -144,4 +144,5 @@ int  main()
     cout << C[0] << endl;
     C[6] = 1;
     return 0;
-}
+55
+55
