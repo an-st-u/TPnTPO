@@ -12,9 +12,9 @@ private:
     float *x;
 public:
     Vector(){Dim=0; x=NULL;}
-    Vector(int Dim);
-    Vector(Vector& V);
-    Vector(int Dim, float x[]);
+    Vector(int);
+    Vector(Vector&);
+    Vector(int, float[]);
     ~Vector();
 
     float& operator[](int j){
@@ -74,7 +74,7 @@ public:
         for(int i=0; i<Dim; i++) {
             test = x[i]*B.x[i];
             if ((test < MIN) || (test > MAX)) {
-              cout << "Выход за диапазон"<<endl;
+              cout << "Out of range"<<endl;
               exit(1);
             }
             buf.x[i]=test;
@@ -90,8 +90,8 @@ public:
         return buf;
     }
 
-    friend void operator<<(ostream& os, const Vector &B);
-    friend Vector operator*(int t, const Vector &B);
+    friend void operator<<(ostream&, const Vector&);
+    friend Vector operator*(int, const Vector&);
 
 };
 
@@ -129,8 +129,8 @@ int  main()
 {
     float x[]={3, 5, 2, 6};
     float y[]={1, 1, 1, -1.4};
-    int d = 4;
-    Vector A(d, x),B(d, y),C(d);
+    int szf = sizeof(x)/4;
+    Vector A(szf, x),B(szf, y),C(szf);
     C=-A+2*A-A+B*2;
     cout << C;
     C[0]=(A,B);
