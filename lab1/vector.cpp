@@ -12,9 +12,9 @@ private:
     float *x;
 public:
     Vector(){Dim=0; x=NULL;}
-    Vector(int);
-    Vector(Vector&);
-    Vector(int, float[]);
+    Vector(int Dim);
+    Vector(Vector &V);
+    Vector(int Dim, float x[]);
     ~Vector();
 
     float& operator[](int j){
@@ -77,7 +77,7 @@ public:
               cout << "Out of range"<<endl;
               exit(1);
             }
-            buf.x[i]=test;
+            buf.x[i]=(float)test;
         }
         return buf;
     }
@@ -90,8 +90,8 @@ public:
         return buf;
     }
 
-    friend void operator<<(ostream&, const Vector&);
-    friend Vector operator*(int, const Vector&);
+    friend void operator<<(ostream& os, const Vector &V);
+    friend Vector operator*(int, const Vector &V);
 
 };
 
@@ -111,6 +111,13 @@ Vector::Vector(int Dim, float x[]) {
         this->x[i] = x[i];
     }
 }
+
+Vector::Vector (Vector &B){
+    Dim=B.Dim;
+    x = new float(Dim);
+    for(int i=0; i<Dim; i++)
+        x[i] = B.x[i];
+};
 
 Vector operator* (int t, const Vector &B){ //C*B
         Vector buf(B.Dim);
