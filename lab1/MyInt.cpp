@@ -24,17 +24,12 @@ public: int n, m;
 			n=B.n;
 			return *this;
 		}
-		MyInt operator- (MyInt B){ // унарный минус
+		MyInt operator- (){ -A // унарный минус
 		MyInt buf;
 		buf.n=-n;
 		return buf;
 		}
 
-		/*MyInt operator+ (MyInt B){ // унарный плюс
-		MyInt buf;
-		buf.n=n;
-		return buf;
-		}*/
 
 		MyInt operator==(const MyInt B){
 		return (n == B.n);
@@ -108,8 +103,7 @@ public: int n, m;
 	
 		}
 
-int MyInt::Test() { //После двух таких функций код будет нечитаем
-	// я смотрел у старшекурсников, у них это метод тест, как вся эта прога
+int MyInt::Test() { 
 	{
 		MyInt A(2),B(3), ans(5),res;
 		res = A + B;
