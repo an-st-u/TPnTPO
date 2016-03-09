@@ -1,162 +1,150 @@
 #include <iostream>
-#include <cstdlib> // Для работы с функцией system()
+#include <cstdlib>
 #define MAX 2147483647.0
 #define MIN -2147483648.0
 
 using namespace std;
 
+class Vector {
 
-class Matrix{
-	public:
-		int M, N;
-		float **A;
-		Matrix(){ //по умолчанию
-			M=N=0; A=NULL;
-		}
-		Matrix(int _m, int _n); // иниц
-		Matrix(int _m, int _n, float *_A); //иниц
-		Matrix(Matrix& V);//копии
-		Matrix& operator-();
-		Matrix& operator= (Matrix& V);
-		Matrix& operator+(Matrix& V);
-		Matrix& operator-(Matrix& V);
-		Matrix& operator*(float x);
-		~ Matrix ();
-		
-		friend ostream& operator<<(ostream& os, Matrix V);
-		friend Matrix operator*(int t, const Matrix &V);
-		};
+private:
+    int Dim;
+    float *x;
+public:
+    Vector(){Dim=0; x=NULL;}
+    Vector(int Dim);
+    Vector(Vector &V);
+    Vector(int Dim, float x[]);
+    ~Vector();
 
-		// К-р инициализации
-Matrix:: Matrix (int _m, int _n){
-	M=_m;
-	N=_n;
-	//A = (float**) malloc(N*M*sizeof(float));
-	A = (float **)malloc(M*sizeof(float*));
-	// проверка выхода за диапазон
-	for(int i = 0; i< M; i++){
-		A[i] = (float *)malloc(N*sizeof(float));
-	// проверка
-	}
-	};
+    float& operator[](int j){
+        if(j < 0 || j >= Dim){
+            cout << "Out of range"<<endl;
+            exit(1);
+        }
+        return x[j];
+    }
 
-Matrix::~Matrix(){
-	for(int i=0; i<M; i++)
-		free(A[i]);
-	free(A);
-}
+	//выход за диапазон
+    Vector& operator= (const Vector& V) {
+        if(Dim!=V.Dim){
+            cout << "Error in dimensions";
+        }
+        Dim=V.Dim;
+        for(int i=0; i<Dim; i++)
+            x[i] = V.x[i];
+        return (*this);
+    }
+
+    Vector operator+ (const Vector &B){ //A+B
+        Vector buf(Dim);
+        for(int i=0; i<Dim; i++)
+            buf.x[i] = x[i]+B.x[i];
+        return buf;
+    }
+
+    float operator, (const Vector &B){ //A,B
+        float m = 0;
+        for(int i=0; i<Dim; i++)
+            m+= x[i]*B.x[i];
+        return m;
+    }
+
+    Vector operator- (const Vector &B){ //A-B
+
+        Vector buf(Dim);
+        for(int i=0; i<Dim; i++) {
+            buf.x[i] = x[i]-B.x[i];
+        }
+        return buf;
+    }
+
+    Vector operator- (){ //-A
+
+        Vector buf(Dim);
+        for(int i=0; i<Dim; i++) {
+            buf.x[i] = -x[i];
+        }
+        return buf;
+    }
 
 
-Matrix::Matrix (Matrix& V){ //выделение памяти
-	M=V.M;
-	N=V.N;
-	A = (float **)malloc(M*sizeof(float*));
-	// проверка
-	for(int i = 0; i< M; i++){
-		A[i] = (float *)malloc(N*sizeof(float));
-		// проверка
-	}
-	for(int i=0; i<M; i++)
-		for(int j=0; j<N; j++)
-			A[i][j] = V.A[i][j];
+    Vector operator* (const Vector &B){ //A*2
+        Vector buf(Dim);
+        double test;
+        for(int i=0; i<Dim; i++) {
+            test = x[i]*B.x[i];
+            if ((test < MIN) || (test > MAX)) {
+              cout << "Out of range"<<endl;
+              exit(1);
+            }
+            buf.x[i]=(float)test;
+        }
+        return buf;
+    }
+
+    Vector operator* (int t){ //B*C
+        Vector buf(Dim);
+        for(int i=0; i<Dim; i++) {
+            buf.x[i] = x[i]*t;
+        }
+        return buf;
+    }
+
+    friend void operator<<(ostream& os, const Vector &V);
+    friend Vector operator*(int, const Vector &V);
+
 };
 
-
-Matrix& Matrix::operator-()
-	{
-			//float *buf = new float(M, N);
-			Matrix *buf = new Matrix(M, N);
-			float buff;
-			for(int i = 0; i < M; ++i)
-				for(int j = 0; j < N; ++j){
-					buff = -A[i][j];
-					buf->  A[i][j] = (float)buff;
-				}
-				return *buf;
-	}
-
-Matrix& Matrix::operator= (Matrix & V){
-	if( M != V.M || N != V.N){
-			cout<< "Error in dimensions";
-			exit(1);
-	}
-	for(int i=0; i<M; i++)
-		for(int j=0; j<N; j++)
-			A[i][j] = V.A[i][j];
-	return *this;
+//конструктор инициализации
+Vector::Vector(int D){
+    Dim = D;
+    x = new float[Dim];
 };
 
-Matrix& Matrix::operator-(Matrix & V){
-			Matrix *buf = new Matrix(M, N);
-			float buff;
-			for(int i = 0; i < M; ++i)
-				for(int j = 0; j < N; ++j){
-					buff = A[i][j] - V.A[i][j];
-					buf->  A[i][j] = (float)buff;
-				}
-			return *buf;
-	}
-
-Matrix& Matrix::operator+(Matrix & V){ // сложение матриц
-			Matrix *buf = new Matrix(M, N);
-			float buff;
-			for(int i = 0; i < M; ++i)
-				for(int j = 0; j < N; ++j){
-					buff = A[i][j] + V.A[i][j];
-					buf->  A[i][j] = (float)buff;
-				}
-			return *buf;
-	}
-
-Matrix& Matrix::operator*(float t) // умножение матрицы на число A*2
-	{
-		if(M > 0 && N > 0 && A != NULL){
-			Matrix *buf = new Matrix(M, N);
-			double buff;
-			for(int i = 0; i < M; ++i)
-				for(int j = 0; j < N; ++j){
-					buff = A[i][j] * t;
-					buf->  A[i][j] = (float)buff;
-				}
-			return *buf;
-		}
-		else
-			cout<< "sizeproblem *";
-	}
-
-
-Matrix operator*(int t, Matrix &V) // умножение числа на матрицу // бинарное умножение, тип 2*A друг класса
-{
-	if(V.M > 0 && V.N > 0 && V.A != NULL){
-		Matrix *buf = new Matrix(V.M, V.N);
-		double buff;
-		for(int i = 0; i < V.M; ++i)
-			for(int j = 0; j < V.N; ++j){
-				buff = t * V.A[i][j];
-				buf->  A[i][j] = (float)buff;
-			}
-			return *buf;
-	}
-				else
-					cout<< "sizeproblem *";
+Vector::~Vector(){
+    delete[] x;
 }
 
+Vector::Vector(int Dim, float x[]) {
+    this->Dim = Dim;
+    this->x = new float[Dim];
+    for (int i=0; i<Dim ; i++){
+        this->x[i] = x[i];
+    }
+}
+
+Vector::Vector (Vector &B){
+    Dim=B.Dim;
+    x = new float[Dim];
+    for(int i=0; i<Dim; i++)
+        x[i] = B.x[i];
+};
+
+Vector operator* (int t, const Vector &B){ //C*B
+        Vector buf(B.Dim);
+        for(int i=0; i<B.Dim; i++)
+            buf.x[i] = t*B.x[i];
+        return buf;
+    }
+
+void operator<<(ostream& os, const Vector &B) {
+    for (int i=0;i<B.Dim;i++)
+        os << B.x[i] << " ";
+    os << endl;
+}
 
 int  main()
 {
-	float x[][4]={{3, 5, 2, 6}, {3, 5, 2, 6}};
-	float y[][4]={{1, 1, 1, 1}, {0, 0, 0, 0}};
-	Matrix A(2, 4, (float *)x), B(2, 4, (float *)y);
-	Matrix C(2, 4);
-	C = -A+2*A-A+B*2;
-	//C[0][0] = 100;
-	//[6][0] = 1; //ошибка!!
-	//cout << F << endl;
-	/*использование класса вектора
-	//float z[]={0, 0, 0, 1};
-	//Vector D(sizeof(z), z), R(2);
-	//R=A*D;
-	cout << R;*/
-	system("pause");
+    float x[]={3, 5, 2, 6};
+    float y[]={1, 1, 1, -1.4};
+    int szf = sizeof(x)/4;
+    Vector A(szf, x),B(szf, y),C(szf);
+    C=-A+2*A-A+B*2;
+    cout << C;
+    C[0]=(A,B);
+    cout << C[0] << endl;
+	cin >> x[0];
+    C[6] = 1;
     return 0;
 }
