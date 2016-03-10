@@ -47,7 +47,7 @@ Matrix:: Matrix (int _m, int _n, float* _A){
 	for(int i = 0; i< M; i++){
 		A[i] = (float *)malloc(N*sizeof(float));
 		for (int j=0;j<N;j++) {
-			A[i][j]= A[i][j];
+			this->A[i][j]= A[i][j];
 		}
 	}
 }
