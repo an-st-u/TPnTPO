@@ -191,7 +191,7 @@ int MyInt::Test() {
 			std::cout <<"Error operator > " << res;
 		}
 	
-		res= A / C;	//C=0
+		res= A / C;
 		
 		return 0;
 	}
