@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <conio.h>
 #define MAX 2147483647.0
 #define MIN -2147483648.0
 
@@ -19,7 +20,7 @@ public:
 
     float& operator[](int j){
         if(j < 0 || j >= Dim){
-            cout << "Out of range"<<endl;
+			cout << "Out of range"<<endl;
             exit(1);
         }
         return x[j];
@@ -35,6 +36,7 @@ public:
             x[i] = V.x[i];
         return (*this);
     }
+
 
     Vector operator+ (const Vector &B){ //A+B
         Vector buf(Dim);
@@ -94,6 +96,7 @@ public:
     friend void operator<<(ostream& os, const Vector &V);
     friend Vector operator*(int, const Vector &V);
 
+	static int Test();
 };
 
 //конструктор инициализации
@@ -134,17 +137,32 @@ void operator<<(ostream& os, const Vector &B) {
     os << endl;
 }
 
-int  main()
+int Vector::Test()
 {
     float x[]={3, 5, 2, 6};
     float y[]={1, 1, 1, -1.4};
     int szf = sizeof(x)/4;
     Vector A(szf, x),B(szf, y),C(szf);
-    C=-A+2*A-A+B*2;
-    cout << C;
-    C[0]=(A,B);
-    cout << C[0] << endl;
-	cin >> x[0];
+	C =-A+2*A-A+B*2;
+	cout << "example C = " << C;
+	cout << "A = " << A;
+    cout << "B = " << B;
+    cout << "A + B = " << A + B;
+    cout << "A - B = " << A - B;
+    cout << "A * B = " << A * B;
+	cout << "A * 2 = " << A * 2; //  << std::endl
+    cout << "-A = " << -A;
+	C[0]=(A,B);
+    cout << "(A,B) = " << C[0] << endl;
+	//cin >> x[0];
     C[6] = 1;
-    return 0;
+
+	return 0;
+		
+}
+
+int  main()
+{
+    Vector::Test();
+   _getch();
 }
