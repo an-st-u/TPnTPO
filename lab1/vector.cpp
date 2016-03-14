@@ -94,6 +94,7 @@ public:
     }
 
     friend void operator<<(ostream& os, const Vector &V);
+	friend void operator>>(istream& is, const Vector &V);
     friend Vector operator*(int, const Vector &V);
 
 	static int Test();
@@ -135,6 +136,11 @@ void operator<<(ostream& os, const Vector &B) {
     for (int i=0;i<B.Dim;i++)
         os << B.x[i] << " ";
     os << endl;
+}
+
+void operator>>(istream& is, const Vector &B) {
+    for (int i=0;i<B.Dim;i++)
+        is >> B.x[i] >> " ";
 }
 
 int Vector::Test()
