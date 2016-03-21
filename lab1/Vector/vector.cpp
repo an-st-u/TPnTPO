@@ -1,5 +1,6 @@
-#include <cstdlib> // Р”Р»СЏ СЂР°Р±РѕС‚С‹ СЃ С„СѓРЅРєС†РёРµР№ system()
+#include <cstdlib> // Для работы с функцией system()
 #include "vector.h"
+#include "MyException.h"
 #define MAX 2147483647.0
 #define MIN -2147483648.0
 
@@ -32,8 +33,7 @@ Vector::~Vector() {
 float& Vector::operator[](int j) {
 
 	if (j < 0 || j >= Dim) {
-		cout << "Out of range" << endl;
-		exit(1);
+		throw &OutOfRange(j, Dim);
 	}
 	return x[j];
 }
@@ -41,7 +41,7 @@ float& Vector::operator[](int j) {
 Vector& Vector::operator= (const Vector& V) {
 
 	if (Dim != V.Dim) {
-		cout << "Error in dimensions";
+		throw &ErrorInDim(V.Dim, Dim);
 	}
 	Dim = V.Dim;
 
@@ -52,15 +52,14 @@ Vector& Vector::operator= (const Vector& V) {
 
 Vector Vector::operator+ (const Vector &B) { //A+B
 	if (Dim != B.Dim) {
-		cout << "Error in dimensions";
+		throw &ErrorInDim(B.Dim, Dim);
 	}
 	Vector buf(Dim);
 	double test;
 	for (int i = 0; i<Dim; i++) {
 		test = (double)x[i] + (double)B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			cout << "Out of range" << endl;
-			exit(1);
+			throw &OutOfFloat(x[i], B.x[i],test);
 		}
 		buf.x[i] = (float)test;
 	}
@@ -69,14 +68,13 @@ Vector Vector::operator+ (const Vector &B) { //A+B
 
 float Vector::operator, (const Vector &B) { //A,B
 	if (Dim != B.Dim) {
-		cout << "Error in dimensions";
+		throw &ErrorInDim(B.Dim, Dim);
 	}
 	double m = 0;
 	for (int i = 0; i<Dim; i++) {
 		m += (double)x[i] * (double)B.x[i];
 		if ((m < MIN) || (m > MAX)) {
-			cout << "Out of range" << endl;
-			exit(1);
+			throw &OutOfFloat(x[i], B.x[i], m);
 		}
 	}
 	return (float)m;
@@ -84,7 +82,7 @@ float Vector::operator, (const Vector &B) { //A,B
 
 Vector Vector::operator- (const Vector &B) { //A-B
 	if (Dim != B.Dim) {
-		cout << "Error in dimensions";
+		throw &ErrorInDim(B.Dim, Dim);
 	}
 	Vector buf(Dim);
 	for (int i = 0; i<Dim; i++) {
@@ -104,15 +102,14 @@ Vector Vector::operator- () { //-A
 
 Vector Vector::operator* (const Vector &B) { //A*2
 	if (Dim != B.Dim) {
-		cout << "Error in dimensions";
+		throw &ErrorInDim(B.Dim, Dim);
 	}
 	Vector buf(Dim);
 	double test;
 	for (int i = 0; i<Dim; i++) {
 		test = x[i] * B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			cout << "Out of range" << endl;
-			exit(1);
+			throw &OutOfFloat(x[i], B.x[i], test);
 		}
 		buf.x[i] = (float)test;
 	}
@@ -125,8 +122,7 @@ Vector Vector::operator* (int t) { //B*C
 	for (int i = 0; i<Dim; i++) {
 		test = (double)x[i] * t;
 		if ((test < MIN) || (test > MAX)) {
-			cout << "Out of range" << endl;
-			exit(1);
+			throw &OutOfFloat(x[i], t, test);
 		}
 		buf.x[i] = (float)test;
 	}
@@ -140,8 +136,7 @@ Vector operator* (int t, const Vector &B) { //C*B
 	for (int i = 0; i<B.Dim; i++) {
 		test = t*B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			cout << "Out of range" << endl;
-			exit(1);
+			throw &OutOfFloat(B.x[i], t, test);
 		}
 		buf.x[i] = (float)test;
 	}
