@@ -2,6 +2,7 @@
 #include <cstdlib> // Для работы с функцией system()
 #define MAX 2147483647.0
 #define MIN -2147483648.0
+#include "Exceptions.h"
 #include "Matrix.h"
 
 
@@ -35,10 +36,10 @@ Matrix::Matrix (Matrix& V){ //выделение памяти
 	M=V.M;
 	N=V.N;
 	A = (float **)malloc(M*sizeof(float*));
-	// проверка
+	//float** A = new float*[M];
 	for(int i = 0; i< M; i++){
 		A[i] = (float *)malloc(N*sizeof(float));
-		// проверка
+			//A[i] = new float[N];
 	}
 	for(int i=0; i<M; i++)
 		for(int j=0; j<N; j++)
@@ -61,21 +62,33 @@ Matrix& Matrix::operator-()
 
 Matrix& Matrix::operator= (Matrix & V){
 	if( M != V.M || N != V.N){
-			std::cout<< "Error in dimensions";
+					std::cout<< "Error in dimensions";
 			exit(1);
-	}
-	for(int i=0; i<M; i++)
-		for(int j=0; j<N; j++)
-			A[i][j] = V.A[i][j];
-	return *this;
+			//if(M != V.M)
+					//throw new OutOfRange(M, V.M);
+		//	else
+				//	throw new OutOfRange(N, V.N);
+		}
+		else
+		{
+			for(int i=0; i<M; i++)
+				for(int j=0; j<N; j++)
+					A[i][j] = V.A[i][j];
+		}
+		return *this;
 }
 
 Matrix& Matrix::operator-(Matrix & V){
 			Matrix *buf = new Matrix(M, N);
-			float buff;
+			double buff; // проверка на выход за диапазон, поэтому надо
+			//менять float на double
 			for(int i = 0; i < M; ++i)
 				for(int j = 0; j < N; ++j){
 					buff = A[i][j] - V.A[i][j];
+					if(buff < MIN || buff > MAX){
+						throw new OutOfRange("-", A[i][j], V.A[i][j]);
+					}
+					else
 					buf->  A[i][j] = (float)buff;
 				}
 			return *buf;
@@ -83,10 +96,14 @@ Matrix& Matrix::operator-(Matrix & V){
 
 Matrix& Matrix::operator+(Matrix & V){ // сложение матриц
 			Matrix *buf = new Matrix(M, N);
-			float buff;
+			double buff;
 			for(int i = 0; i < M; ++i)
 				for(int j = 0; j < N; ++j){
 					buff = A[i][j] + V.A[i][j];
+					if(buff < MIN || buff > MAX){
+						throw new OutOfRange("+", A[i][j], V.A[i][j]);
+					}
+					else
 					buf->  A[i][j] = (float)buff;
 				}
 			return *buf;
@@ -100,11 +117,15 @@ Matrix& Matrix::operator*(float t){ // умножение матрицы на ч
 			for(int i = 0; i < M; ++i)
 				for(int j = 0; j < N; ++j){
 					buff = A[i][j] * t;
-					buf->  A[i][j] = (float)buff;
+					if(buff < MIN || buff > MAX){
+						throw new OutOfRange("*", A[i][j],(float) t);
+					}
+					else
+						buf->A[i][j] = (float) buff;
 				}
-			return *buf;
-		}
-		else
+		return *buf;
+	}
+	else
 			std::cout<< "sizeproblem *";
 }
 
@@ -119,6 +140,10 @@ Matrix operator*(int t, Matrix &V) // умножение числа на мат�
 			for(int j = 0; j < V.N; ++j)
 			{
 				buff = t * V.A[i][j];
+				if(buff < MIN || buff > MAX)
+					throw new OutOfRange( "*", (float) t, V.A[i][j]);
+				else
+
 				buf->  A[i][j] = (float)buff;
 			}
 		return *buf;
