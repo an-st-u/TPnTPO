@@ -17,4 +17,6 @@ class Matrix{
 		
 		friend void operator<<(std::ostream& os,const Matrix &V);
 		friend Matrix operator*(int t, Matrix &V);
+
+		static int Test();
 };// Matrix
