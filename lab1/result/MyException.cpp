@@ -47,8 +47,8 @@ OutOfFloat::OutOfFloat(char *ch, float a, int d, double c) {
 
 void OutOfFloat::what() {
 
-	std::cout << std::endl << "OutOfFloat. " << a << " " << ch << " " << b << " = " << c << std::endl;
-	std::cout << "Error in dimensions";
+	std::cout << std::endl << "OutOfFloat. " << ch 
+		<< ". " << a << ", " << b << " = " << c << std::endl;
 }
 
 EmptyMatrix::EmptyMatrix() {}

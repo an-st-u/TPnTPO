@@ -55,11 +55,17 @@ void Test::TestMatrix() {
 			e->what();
 		}
 		
-		float z[] = { 0, 0, 0, 1, 5 };
+		float z[] = { 0, 0, 0, 1 };
 		int szf = sizeof(z) / 4;
 		Vector D(szf, z), R(2);
 		R = A*D;
 		cout << R;
+
+		float a[][4] = { { MIN, MAX, MAX, MAX },{ MAX, MAX, MAX, MAX } };
+		float b[][4] = { { 1, 1, MAX, 1 },{ 0, 0, 0, 0 } };
+		Matrix An(2, 4, (float*)a), Bn(2, 4, (float*)b);
+		Matrix Cn(2, 4);
+		Cn = An + Bn;
 
 	}
 	catch (MyException *e) {

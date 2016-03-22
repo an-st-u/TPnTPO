@@ -84,9 +84,14 @@ Vector Vector::operator- (const Vector &B) { //A-B
 	if (Dim != B.Dim) {
 		throw &ErrorInDim(B.Dim, Dim);
 	}
+	double test;
 	Vector buf(Dim);
 	for (int i = 0; i<Dim; i++) {
-		buf.x[i] = x[i] - B.x[i];
+		test = (double)x[i] - (double)B.x[i];
+		if ((test < MIN) || (test > MAX)) {
+			throw &OutOfFloat("A-B", x[i], B.x[i], test);
+		}
+		buf.x[i] = (float)test;
 	}
 	return buf;
 }
