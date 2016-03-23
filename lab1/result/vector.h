@@ -8,7 +8,7 @@ class Vector {
 		float *x;
 	public:
 		Vector() { Dim = 0; x = NULL; }
-		Vector(int Dim); //конструктор инициализации
+		Vector(int Dim); 
 		Vector(Vector &V);
 		Vector(int Dim, float x[]);
 		Vector::~Vector();
