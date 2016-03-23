@@ -9,8 +9,11 @@ private:
 	int j, Dim;
 
 public:
+	int left, right;
+	char* operat;
 	OutOfRange();
 	OutOfRange(int,int);
+	OutOfRange(char* , int, int);
 	void what();
 	~OutOfRange();
 };
@@ -43,5 +46,25 @@ public:
 	EmptyMatrix();
 	void what();
 	~EmptyMatrix();
+};
+
+class DivisionByZero  {
+	public: 
+		int num;
+		DivisionByZero(int _num);
+};
+
+
+class OutOfInt : public MyException {
+private:
+	int a, b;
+	long long c;
+	char *ch;
+public:
+	OutOfInt();
+	OutOfInt(char*, int, int, long long);
+	OutOfInt(char*, int, long long);
+	void what();
+	~OutOfInt();
 };
 
