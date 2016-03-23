@@ -7,14 +7,14 @@ private:
 	int M, N;
 	float **A;
 public:
-	Matrix() { //по умолчанию
+	Matrix() { 
 		M = N = 0; A = NULL;
 	}
-	Matrix(int, int); // иниц
-	Matrix(int, int, float*); //иниц
-	Matrix(Matrix& V);//копии
+	Matrix(int, int); 
+	Matrix(int, int, float*); 
+	Matrix(Matrix& V);
 	Matrix operator-();
-	float* operator[](int); // ярик
+	float* operator[](int);
 	Matrix& operator= (Matrix& V);
 	Matrix operator+(Matrix& V);
 	Matrix operator-(Matrix& V);
