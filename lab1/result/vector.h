@@ -20,6 +20,7 @@ class Vector {
 		Vector operator- (); //-A
 		Vector operator* (const Vector &B); //A*B
 		Vector operator* (int t); //B*C
+		bool operator!= (const Vector &B); //A!=B
 		void set(int, float);
 		int getDim();
 	

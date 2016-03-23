@@ -117,36 +117,31 @@ void Test::MyIntTest() {
 
 };
 
-void Test::MyIntTest2(){
-
-	MyInt A, B(2), C('5');
-	MyInt *D = new MyInt();
-	MyInt *E = new MyInt(10);
-	
-	A=B=C=*E;
-	if (A != 10){
-		std::cout << "10 no equal "<< A;
-	}
-	delete D;
-	delete E;
-	
-}
-
-void Test::MyIntTest3() {
+void Test::TestMyInt() {
 
 	MyInt A(2),B(3),res;
+	int result_int;
 	res=-2*A+B*7-A*A*B;
-	int buf;
+	
 	{
-	
-	int A(2),B(3);
-	buf=-2*A+B*7-A*A*B;
-	
-	
+		int A(2),B(3);
+		result_int=-2*A+B*7-A*A*B;
 	}
-	MyInt buf2(buf);
-	if (res!=buf2) {
-	cout << "Error";
+	
+	if (res!= result_int) {
+		cout << "Expression error - " << result_int << "not equal" << res;
+	}
+
+	A = -78, B = 3594, res;
+	res = -A + 548 * B + B / 113 * B + 4 * A * B - 54 + A * 48 - A;
+
+	{
+		int A(-78), B(3594);
+		result_int = -A + 548 * B + B / 113 * B + 4 * A * B - 54 + A * 48 - A;
+	}
+
+	if (res != result_int) {
+		cout << "Expression error : " << result_int << " not equal " << res;
 	}
 }
 
@@ -159,6 +154,14 @@ void Test::TestVector() {
 		int szf = sizeof(x) / 4;
 		Vector A(szf, x), B(szf, y), C(szf);
 		C = -A + 2 * A - A + B * 2;
+		float t[] = { 2, 2, 2, -2.8 };
+		Vector Test(szf, t);
+
+		if (C != Test) {
+			cout << "Expression error : " << C;
+			cout << "not equal : " << Test;
+		}
+		/*
 		cout << C;
 		cout << "A = " << A;
 		cout << "B = " << B;
@@ -169,16 +172,21 @@ void Test::TestVector() {
 		cout << "-A = " << -A;
 		C[0] = (A, B);
 		cout << "(A,B) = " << C[0] << " \n";
-		C[0] = 1;
-		std::cout << "We will wait exceptions" << std::endl;
+		*/
+		
+		try {
+			C[6] = 1;
+			std::cout << "We waited exceptions" << std::endl;
+		}
+		catch (MyException *e) {
+		}
+		
 
 	}catch (MyException *e) {
-		e->what();
+		e->what();	
 	}catch (...) {
 		cout << "unexpected error";
 	}
-	
-	
 
 }
 
@@ -187,31 +195,33 @@ void Test::TestMatrix() {
 
 		float x[][4] = { { 3, 5, 2, 6 },{ 3, 5, 2, 6 } };
 		float y[][4] = { { 1, 1, 1, 1 },{ 0, 0, 0, 0 } };
-		float c[][4] = { { MIN, MAX, MAX, MAX },{ MAX, MAX, MAX, MAX } };
-		float d[][4] = { { 1, 1, MAX, 1 },{ 0, 0, 0, 0 } };
 		Matrix A(2, 4, (float*)x), B(2, 4, (float*)y);
 		Matrix C(2, 4);
 		C = -A + 2 * A - A + B * 2;
-		cout << C;
 		C[0][0] = 100;
 		
 		try {
-			C[8][0] = 1; //îøèáêà!!
+			C[8][0] = 1;
+			std::cout << "We waited exceptions" << std::endl;
 		} catch (MyException *e) {
-			e->what();
-		}
+		} 
 		
 		float z[] = { 0, 0, 0, 1 };
 		int szf = sizeof(z) / 4;
 		Vector D(szf, z), R(2);
 		R = A*D;
-		cout << R;
 
 		float a[][4] = { { MIN, MAX, MAX, MAX },{ MAX, MAX, MAX, MAX } };
 		float b[][4] = { { 1, 1, MAX, 1 },{ 0, 0, 0, 0 } };
 		Matrix An(2, 4, (float*)a), Bn(2, 4, (float*)b);
 		Matrix Cn(2, 4);
+		
+		try {
 		Cn = An + Bn;
+		std::cout << "We waited exceptions" << std::endl;
+		}
+		catch (MyException *e) {
+		}
 
 	}
 	catch (MyException *e) {

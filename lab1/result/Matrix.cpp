@@ -67,9 +67,9 @@ Matrix Matrix::operator-() {
 Matrix& Matrix::operator= (Matrix & V) {
 	
 	if (M != V.M) {
-		throw &ErrorInDim(M, V.M);
+		throw new ErrorInDim(M, V.M);
 		if (N != V.N) {
-			throw &ErrorInDim(N, V.N);
+			throw new ErrorInDim(N, V.N);
 		}
 	} else {
 		
@@ -88,7 +88,7 @@ Matrix Matrix::operator-(Matrix & V) {
 		for (int j = 0; j < N; ++j) {
 			buff = A[i][j] - V.A[i][j];
 			if (buff < MIN || buff > MAX) {
-				throw &OutOfFloat("A-B", A[i][j], V.A[i][j], buff);
+				throw new OutOfFloat("A-B", A[i][j], V.A[i][j], buff);
 			}
 			else {
 				buf.A[i][j] = (float)buff;
@@ -106,7 +106,7 @@ Matrix Matrix::operator+(Matrix & V) { // сложение матриц
 		for (int j = 0; j < N; ++j) {
 			buff = A[i][j] + V.A[i][j];
 			if (buff < MIN || buff > MAX) {
-				throw &OutOfFloat("A+B", A[i][j], V.A[i][j], buff);
+				throw new OutOfFloat("A+B", A[i][j], V.A[i][j], buff);
 			}
 			else {
 				buf.A[i][j] = (float)buff;
@@ -119,7 +119,7 @@ Matrix Matrix::operator+(Matrix & V) { // сложение матриц
 Matrix Matrix::operator*(float t) { // умножение матрицы на число A*2
 
 	if (M == 0 || N == 0 || A == NULL) {
-		throw &EmptyMatrix();
+		throw new EmptyMatrix();
 	}
 	
 	Matrix buf(M, N);
@@ -128,7 +128,7 @@ Matrix Matrix::operator*(float t) { // умножение матрицы на ч
 		for (int j = 0; j < N; ++j) {
 			buff = A[i][j] * t;
 			if (buff < MIN || buff > MAX) {
-				throw &OutOfFloat("A*Const", t, A[i][j], buff);
+				throw new OutOfFloat("A*Const", t, A[i][j], buff);
 			}
 			else {
 				buf.A[i][j] = (float)buff;
@@ -151,7 +151,7 @@ Vector Matrix::operator*(Vector& A) { //умножение вектора на �
 		for (int j = 0; j < N; ++j) {
 			buff += this->A[i][j] * A[j];
 			if (buff < MIN || buff > MAX) {
-				throw &OutOfFloat(" A*Vector", this->A[i][j], A[j], buff);
+				throw new OutOfFloat(" A*Vector", this->A[i][j], A[j], buff);
 			}	
 		}
 		buf.set(i, buff);
@@ -174,7 +174,7 @@ Matrix operator*(int t, Matrix &V) { // умножение числа на ма�
 		for (int j = 0; j < V.N; ++j) {
 			buff = t * V.A[i][j];
 			if (buff < MIN || buff > MAX) {
-				throw &OutOfFloat("Const*A",(float)t, V.A[i][j], buff);
+				throw new OutOfFloat("Const*A",(float)t, V.A[i][j], buff);
 			} else {
 				buf.A[i][j] = (float)buff;
 			}

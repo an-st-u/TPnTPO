@@ -41,7 +41,7 @@ float& Vector::operator[](int j) {
 Vector& Vector::operator= (const Vector& V) {
 
 	if (Dim != V.Dim) {
-		throw &ErrorInDim(V.Dim, Dim);
+		throw new ErrorInDim(V.Dim, Dim);
 	}
 	Dim = V.Dim;
 
@@ -52,14 +52,14 @@ Vector& Vector::operator= (const Vector& V) {
 
 Vector Vector::operator+ (const Vector &B) { 
 	if (Dim != B.Dim) {
-		throw &ErrorInDim(B.Dim, Dim);
+		throw new ErrorInDim(B.Dim, Dim);
 	}
 	Vector buf(Dim);
 	double test;
 	for (int i = 0; i<Dim; i++) {
 		test = (double)x[i] + (double)B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			throw &OutOfFloat("A+B", x[i], B.x[i],test);
+			throw new OutOfFloat("A+B", x[i], B.x[i],test);
 		}
 		buf.x[i] = (float)test;
 	}
@@ -68,13 +68,13 @@ Vector Vector::operator+ (const Vector &B) {
 
 float Vector::operator, (const Vector &B) { 
 	if (Dim != B.Dim) {
-		throw &ErrorInDim(B.Dim, Dim);
+		throw new ErrorInDim(B.Dim, Dim);
 	}
 	double m = 0;
 	for (int i = 0; i<Dim; i++) {
 		m += (double)x[i] * (double)B.x[i];
 		if ((m < MIN) || (m > MAX)) {
-			throw &OutOfFloat("(A,B)", x[i], B.x[i], m);
+			throw new OutOfFloat("(A,B)", x[i], B.x[i], m);
 		}
 	}
 	return (float)m;
@@ -82,14 +82,14 @@ float Vector::operator, (const Vector &B) {
 
 Vector Vector::operator- (const Vector &B) { //A-B
 	if (Dim != B.Dim) {
-		throw &ErrorInDim(B.Dim, Dim);
+		throw new ErrorInDim(B.Dim, Dim);
 	}
 	double test;
 	Vector buf(Dim);
 	for (int i = 0; i<Dim; i++) {
 		test = (double)x[i] - (double)B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			throw &OutOfFloat("A-B", x[i], B.x[i], test);
+			throw new OutOfFloat("A-B", x[i], B.x[i], test);
 		}
 		buf.x[i] = (float)test;
 	}
@@ -107,14 +107,14 @@ Vector Vector::operator- () { //-A
 
 Vector Vector::operator* (const Vector &B) { //A*B
 	if (Dim != B.Dim) {
-		throw &ErrorInDim(B.Dim, Dim);
+		throw new ErrorInDim(B.Dim, Dim);
 	}
 	Vector buf(Dim);
 	double test;
 	for (int i = 0; i<Dim; i++) {
 		test = x[i] * B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			throw &OutOfFloat("A*B", x[i], B.x[i], test);
+			throw new OutOfFloat("A*B", x[i], B.x[i], test);
 		}
 		buf.x[i] = (float)test;
 	}
@@ -127,11 +127,23 @@ Vector Vector::operator* (int t) { //B*Const
 	for (int i = 0; i<Dim; i++) {
 		test = (double)x[i] * t;
 		if ((test < MIN) || (test > MAX)) {
-			throw &OutOfFloat("A*Const", x[i], t, test);
+			throw new OutOfFloat("A*Const", x[i], t, test);
 		}
 		buf.x[i] = (float)test;
 	}
 	return buf;
+}
+
+bool Vector::operator!= (const Vector &B) {
+
+	bool test=false;
+	for (int i=0;i++;i<Dim) {
+		test=(x[i]!=B.x[i]);
+		if (test==true) {
+			return (test);
+		}
+	}
+	return (test);
 }
 
 void Vector::set (int i, float a) {
@@ -149,7 +161,7 @@ Vector operator* (int t, const Vector &B) { //C*B
 	for (int i = 0; i<B.Dim; i++) {
 		test = t*B.x[i];
 		if ((test < MIN) || (test > MAX)) {
-			throw &OutOfFloat("Const*A", B.x[i], t, test);
+			throw new OutOfFloat("Const*A", B.x[i], t, test);
 		}
 		buf.x[i] = (float)test;
 	}

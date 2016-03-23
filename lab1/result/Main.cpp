@@ -4,12 +4,10 @@
 
 int  main() {
 
-	Test::MyIntTest();
-	Test::MyIntTest2();
-	std::cout << "   "<< std::endl;
 	Test::TestVector();
 	Test::TestMatrix();
-	Test::MyIntTest3();
+	Test::TestMyInt();
+	std::cout << "All test was run";
 	_getch();
 	return 0;
 
