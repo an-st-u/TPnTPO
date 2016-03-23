@@ -1,4 +1,4 @@
-#include <cstdlib> // Для работы с функцией system()
+#include <cstdlib> 
 #include "vector.h"
 #include "MyException.h"
 #define MAX 2147483647.0
@@ -33,7 +33,7 @@ Vector::~Vector() {
 float& Vector::operator[](int j) {
 
 	if (j < 0 || j >= Dim) {
-		throw &OutOfRange(j, Dim);
+		throw new OutOfRange(j, Dim);
 	}
 	return x[j];
 }
@@ -50,7 +50,7 @@ Vector& Vector::operator= (const Vector& V) {
 	return (*this);
 }
 
-Vector Vector::operator+ (const Vector &B) { //A+B
+Vector Vector::operator+ (const Vector &B) { 
 	if (Dim != B.Dim) {
 		throw &ErrorInDim(B.Dim, Dim);
 	}
@@ -66,7 +66,7 @@ Vector Vector::operator+ (const Vector &B) { //A+B
 	return buf;
 }
 
-float Vector::operator, (const Vector &B) { //A,B
+float Vector::operator, (const Vector &B) { 
 	if (Dim != B.Dim) {
 		throw &ErrorInDim(B.Dim, Dim);
 	}
@@ -162,6 +162,5 @@ void operator<<(ostream& os, const Vector &B) {
 		os << B.x[i] << " ";
 	os << endl;
 }
-
 
 
