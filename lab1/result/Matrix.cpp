@@ -1,21 +1,21 @@
-#include <cstdlib> // Для работы с функцией system()
+#include <cstdlib> // // Р”Р»СЏ СЂР°Р±РѕС‚С‹ СЃ С„СѓРЅРєС†РёРµР№ system()
 #include "MyException.h"
 #include "Matrix.h"
 #define MAX 2147483647.0
 #define MIN -2147483648.0
 
 
-Matrix::Matrix(int M, int N) { // К-р инициализации
+Matrix::Matrix(int M, int N) { // Рљ-СЂ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
 	this->M = M; this->N = N;
 	A = new  float*[M];
 	for (int i = 0; i< M; i++)
 		A[i] = new  float[N];
 }
 
-Matrix::Matrix(int M, int N, float* A) { // К-р инициализации
+Matrix::Matrix(int M, int N, float* A) { // Рљ-СЂ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
 	this->M = M; this->N = N;
 	this->A = new  float*[M];
-	//Проверки здесь могут быть...
+	//РџСЂРѕРІРµСЂРєРё Р·РґРµСЃСЊ РјРѕРіСѓС‚ Р±С‹С‚СЊ...
 	for (int i = 0; i < M; i++) {
 		this->A[i] = new  float[N];
 		for (int j = 0; j< N; j++) {
@@ -25,7 +25,7 @@ Matrix::Matrix(int M, int N, float* A) { // К-р инициализации
 }
 
 
-Matrix::Matrix(Matrix& V) { //выделение памяти
+Matrix::Matrix(Matrix& V) { //РІС‹РґРµР»РµРЅРёРµ РїР°РјСЏС‚Рё
 	M = V.M;
 	N = V.N;
 	A = new  float*[M];
@@ -42,10 +42,10 @@ Matrix::~Matrix() {
 	free(A);
 }
 
-float* Matrix::operator[](int _M) {
+float* Matrix::operator[](int _M) {  // ? Vector D(szf, z)
 
 	if (_M < 0 || _M >= M) {
-		throw &OutOfRange(_M, M);
+		throw  new OutOfRange(_M, M);
 	}
 	return (float*)A[_M];
 }
@@ -98,7 +98,7 @@ Matrix Matrix::operator-(Matrix & V) {
 	return buf;
 }
 
-Matrix Matrix::operator+(Matrix & V) { // сложение матриц
+Matrix Matrix::operator+(Matrix & V) { // СЃР»РѕР¶РµРЅРёРµ РјР°С‚СЂРёС†
 	
 	Matrix buf(M, N);
 	double buff;
@@ -116,7 +116,7 @@ Matrix Matrix::operator+(Matrix & V) { // сложение матриц
 	return buf;
 }
 
-Matrix Matrix::operator*(float t) { // умножение матрицы на число A*2
+Matrix Matrix::operator*(float t) { // СѓРјРЅРѕР¶РµРЅРёРµ РјР°С‚СЂРёС†С‹ РЅР° С‡РёСЃР»Рѕ A*2
 
 	if (M == 0 || N == 0 || A == NULL) {
 		throw &EmptyMatrix();
@@ -139,7 +139,7 @@ Matrix Matrix::operator*(float t) { // умножение матрицы на число A*2
 	
 }
 
-Vector Matrix::operator*(Vector& A) { // умножение матрицы на Вектор A*Vector
+Vector Matrix::operator*(Vector& A) { //СѓРјРЅРѕР¶РµРЅРёРµ РІРµРєС‚РѕСЂР° РЅР° С‡РёСЃР»Рѕ A*2
 
 	int Dim = A.getDim();
 	if (Dim != this->N) {
@@ -162,7 +162,7 @@ Vector Matrix::operator*(Vector& A) { // умножение матрицы на Вектор A*Vector
 }
 
 
-Matrix operator*(int t, Matrix &V) { // умножение числа на матрицу // бинарное умножение, тип 2*A друг класса
+Matrix operator*(int t, Matrix &V) { // СѓРјРЅРѕР¶РµРЅРёРµ С‡РёСЃР»Р° РЅР° РјР°С‚СЂРёС†Сѓ // Р±РёРЅР°СЂРЅРѕРµ СѓРјРЅРѕР¶РµРЅРёРµ, С‚РёРї 2*A РґСЂСѓРі РєР»Р°СЃСЃР°
 
 	if (V.M == 0 || V.N == 0 || V.A == NULL) {
 		throw &EmptyMatrix();
