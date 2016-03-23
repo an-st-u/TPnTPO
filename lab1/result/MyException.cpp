@@ -10,6 +10,13 @@ OutOfRange::OutOfRange(int j, int Dim) {
 	this->Dim = Dim;
 }
 
+OutOfRange::OutOfRange(char* _operat, int _left, int _right){
+		left = _left;
+		right = _right;
+		operat = _operat;
+
+}
+
 void OutOfRange::what() {
 
 	std::cout << std::endl <<"Out of range. " << j << "<0 or "<< j << ">" << Dim << std::endl;
@@ -56,3 +63,31 @@ void EmptyMatrix::what() {
 	std::cout << "Empty Matrix";
 }
 EmptyMatrix::~EmptyMatrix() {}
+
+
+DivisionByZero::DivisionByZero(int _num){
+		num =_num;			
+}
+
+OutOfInt::OutOfInt() {}
+OutOfInt::~OutOfInt() {}
+OutOfInt::OutOfInt(char *ch, int a, int b, long long c) {
+	this->a = a;
+	this->b = b;
+	this->c = c;
+	this->ch = ch;
+}
+
+OutOfInt::OutOfInt(char *ch, int a, long long c) {
+	this->a = a;
+	this->b = 0;
+	this->c = c;
+	this->ch = ch;
+}
+
+
+void OutOfInt::what() {
+
+	std::cout << std::endl << "OutOfInt. " << ch 
+		<< ". " << a << ", " << b << " = " << c << std::endl;
+}
