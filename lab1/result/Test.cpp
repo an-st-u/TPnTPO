@@ -1,4 +1,5 @@
 #include "Test.h"
+#include "MyInt.h"
 #include "Vector.h"
 #include "Matrix.h"
 #include "MyException.h"
@@ -9,6 +10,147 @@
 using namespace std;
 Test::Test(){}
 Test::~Test(){}
+
+void Test::MyIntTest() {
+
+		
+		MyInt A(2),B(3), ans(0),res, C(1), D(0), F(INT_MIN);
+		//MyInt A(15), B(INT_MAX-1), C(0), D(INT_MIN+1), res;
+		//long F(INT_MAX+14);
+		try {
+		res= 2*A - B*3 + A/2 + 4; 
+		std::cout << "Answer = " << res;
+
+		if (res != ans){
+			std::cout << "Error: it is not equal 10 "<< std::endl ;
+			//exit(1);
+		}
+
+		res = A + B;
+		if (res != 5){
+			std::cout << "Error operator+ : 5 not equal " << res;
+			//exit(1);
+		}
+
+		res = A - B;
+		if (res != -1){
+			std::cout << "Error operator- : -1 not equal " << res;
+			//exit(1);
+		}
+
+		res = A * B;
+		if (res != 6){
+			std::cout << "Error operator* binar : 6 not equal " << res;
+			//exit(1);
+		}
+
+		res = B / A;
+		if (res != 1){
+			std::cout << "Error operator/ binar : 1 not equal " << res;
+			//exit(1);
+		}
+		res = A * 2;
+		if (res != 4){
+			std::cout << "Error operator A*2 : 4 not equal " << res;
+			//exit(1);
+		}
+		res = 2 * A;
+		if (res != 4){
+			std::cout << "Error operator 2*A : 4 not equal " << res;
+			//exit(1);
+		}
+
+		res = A; // эта проверка немного странная
+		if(res != 2){
+			std::cout << "Error operator = : 2 not equal " << res;
+		}
+
+		res = -A; // эта проверка немного странная
+		if(res != -2){
+			std::cout << "Error operator = : -2 not equal " << res;
+		}
+
+		if(res > A){
+			std::cout <<"Error operator > : 2 not more " << res;
+		}
+		} catch (MyException* e) {
+			e->what();
+		}
+
+		try {
+			res= A / C;
+		}
+		catch(DivisionByZero* e){
+				std::cout <<  e->num <<" division by zero\n";
+		}
+
+		try{
+			res= A+B;
+		}
+		catch(MyException* e){
+			e->what();
+		}
+
+		try{
+			res= A*B;
+		}
+		catch(MyException* e){
+			e->what();
+		}
+
+		try{
+			res= 2*A;
+		}
+		catch(MyException* e){
+			e->what();
+		}
+
+		try{
+			res= A-B;
+		}
+		catch(MyException* e){
+			e->what();
+		}
+
+		
+
+
+};
+
+void Test::MyIntTest2(){
+
+	MyInt A, B(2), C('5');
+	MyInt *D = new MyInt();
+	MyInt *E = new MyInt(10);
+	
+	A=B=C=*E;
+	if (A != 10){
+		std::cout << "10 no equal "<< A;
+	}
+	delete D;
+	delete E;
+	
+}
+
+void Test::MyIntTest3() {
+
+	MyInt A(2),B(3),res;
+	res=-2*A+B*7-A*A*B;
+	int buf;
+	{
+	
+	int A(2),B(3);
+	buf=-2*A+B*7-A*A*B;
+	
+	
+	}
+	MyInt buf2(buf);
+	if (res!=buf2) {
+	cout << "Error";
+	}
+}
+
+
 void Test::TestVector() {
 
 	try {
@@ -26,13 +168,17 @@ void Test::TestVector() {
 		cout << "A * 2 = " << A * 2;
 		cout << "-A = " << -A;
 		C[0] = (A, B);
-		cout << "(A,B) = " << C[0];
-		C[6] = 1;
+		cout << "(A,B) = " << C[0] << " \n";
+		C[0] = 1;
+		std::cout << "We will wait exceptions" << std::endl;
+
 	}catch (MyException *e) {
 		e->what();
 	}catch (...) {
 		cout << "unexpected error";
 	}
+	
+	
 
 }
 
@@ -50,7 +196,7 @@ void Test::TestMatrix() {
 		C[0][0] = 100;
 		
 		try {
-			C[8][0] = 1; //������!!
+			C[8][0] = 1; //îøèáêà!!
 		} catch (MyException *e) {
 			e->what();
 		}
