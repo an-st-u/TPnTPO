@@ -1,4 +1,5 @@
 #include "Test.h"
+#include <cmath>
 #include "MyInt.h"
 #include "Vector.h"
 #include "Matrix.h"
@@ -143,6 +144,7 @@ void Test::TestMyInt() {
 	if (res != result_int) {
 		cout << "Expression error : " << result_int << " not equal " << res;
 	}
+
 }
 
 
@@ -161,18 +163,16 @@ void Test::TestVector() {
 			cout << "Expression error : " << C;
 			cout << "not equal : " << Test;
 		}
-		/*
-		cout << C;
-		cout << "A = " << A;
-		cout << "B = " << B;
-		cout << "A + B = " << A + B;
-		cout << "A - B = " << A - B;
-		cout << "A * B = " << A * B;
-		cout << "A * 2 = " << A * 2;
-		cout << "-A = " << -A;
-		C[0] = (A, B);
-		cout << "(A,B) = " << C[0] << " \n";
-		*/
+
+        C[0] = (A, B); 
+        float a = 1.6;
+        if (abs(C[0] - a) > 0.001) {
+
+            cout << "Expression error : " << C[0];
+            cout << " not equal : " << a;
+            cout << endl;
+            
+        }
 		
 		try {
 			C[6] = 1;

@@ -1,7 +1,7 @@
 #pragma once
 class MyException {
 public:
-	virtual void what() = 0;
+    virtual void what() = 0;
 };
 
 class OutOfRange : public MyException {
