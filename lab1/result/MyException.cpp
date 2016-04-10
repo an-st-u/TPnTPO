@@ -66,4 +66,4 @@ public:
 	OutOfInt(char*, int, long long);
 	void what();
 	~OutOfInt();
-};
+};//
