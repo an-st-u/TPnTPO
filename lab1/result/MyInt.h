@@ -12,7 +12,7 @@ public: int n, m;
 		MyInt operator-();
 		MyInt operator-(const MyInt& B);
 		bool operator==(const MyInt B);
-		bool operator>(const MyInt B);
+		bool operator>(const MyInt& B);
 		bool operator<(const MyInt B);
 		bool operator>=(const MyInt B);
 		bool operator<=(const MyInt B);
@@ -23,7 +23,7 @@ public: int n, m;
 		MyInt operator*(int m);
 
 		friend MyInt operator*(int m, const MyInt &B);
-		friend MyInt operator+ (int m, MyInt B); // îáúÿâëåíèå äðóæåñòâåííîé ôóíêöèè
+		friend MyInt operator+ (int m, MyInt B); // Ã®Ã¡ÃºÃ¿Ã¢Ã«Ã¥Ã­Ã¨Ã¥ Ã¤Ã°Ã³Ã¦Ã¥Ã±Ã²Ã¢Ã¥Ã­Ã­Ã®Ã© Ã´Ã³Ã­ÃªÃ¶Ã¨Ã¨
 		friend void operator<<(std::ostream& os, const MyInt &B);
 
 };// MyInt
