@@ -3,15 +3,15 @@
 #include "MyInt.h"
 #include "MyException.h"
 
-		//конструкторы
+		//ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г»
 		MyInt::MyInt(){ 
 			n=0; 
 		}
 		MyInt::MyInt( int n){
 			this-> n=n;
 		}
-		//Функция sscanf() идентична функции scanf(), но данные читаются из массива,
-		//адресуемого параметром buf, а не из стандартного потока ввода stdin.
+		//Г”ГіГ­ГЄГ¶ГЁГї sscanf() ГЁГ¤ГҐГ­ГІГЁГ·Г­Г  ГґГіГ­ГЄГ¶ГЁГЁ scanf(), Г­Г® Г¤Г Г­Г­Г»ГҐ Г·ГЁГІГ ГѕГІГ±Гї ГЁГ§ Г¬Г Г±Г±ГЁГўГ ,
+		//Г Г¤Г°ГҐГ±ГіГҐГ¬Г®ГЈГ® ГЇГ Г°Г Г¬ГҐГІГ°Г®Г¬ buf, Г  Г­ГҐ ГЁГ§ Г±ГІГ Г­Г¤Г Г°ГІГ­Г®ГЈГ® ГЇГ®ГІГ®ГЄГ  ГўГўГ®Г¤Г  stdin.
 		MyInt::MyInt( char *str){
 			std::cout << str << n;
 		}
@@ -28,7 +28,7 @@
 
 		MyInt::~MyInt(){}
 		
-		MyInt MyInt::operator- (){ // унарный минус -A 
+		MyInt MyInt::operator- (){ // ГіГ­Г Г°Г­Г»Г© Г¬ГЁГ­ГіГ± -A 
 		MyInt buf;
 		long long a;
 		a= -n;
@@ -43,7 +43,7 @@
 			MyInt buf;
 			long long c;
 			c = n - B.n;
-			if (( c < INT_MIN) || (c > INT_MAX)) {  // с лонгом не сработал
+			if (( c < INT_MIN) || (c > INT_MAX)) {  // Г± Г«Г®Г­ГЈГ®Г¬ Г­ГҐ Г±Г°Г ГЎГ®ГІГ Г«
 				throw new  OutOfInt("*" ,n, B.n, c);	
 			}
 			buf.n = (int)c;
@@ -54,7 +54,7 @@
 			return (n == B.n);
 		}
 
-		bool MyInt::operator>(const MyInt B){
+		bool MyInt::operator>(const MyInt& B){
 			return (n > B.n);
 		}
 
@@ -100,7 +100,7 @@
 			return buf;
 		}
 
-		MyInt MyInt::operator* (MyInt B){ // умножение типа B*A метод класса
+		MyInt MyInt::operator* (MyInt B){ // ГіГ¬Г­Г®Г¦ГҐГ­ГЁГҐ ГІГЁГЇГ  B*A Г¬ГҐГІГ®Г¤ ГЄГ«Г Г±Г±Г 
 			MyInt buf;
 			long long c;
 			c = n * B.n;  
@@ -112,7 +112,7 @@
 		}
 
 
-		MyInt operator*(int m, const MyInt &B){ // бинарное умножение, тип 2*A друг класса
+		MyInt operator*(int m, const MyInt &B){ // ГЎГЁГ­Г Г°Г­Г®ГҐ ГіГ¬Г­Г®Г¦ГҐГ­ГЁГҐ, ГІГЁГЇ 2*A Г¤Г°ГіГЈ ГЄГ«Г Г±Г±Г 
 			MyInt buf;
 			long long c;
 			c  = m* B.n;
@@ -123,7 +123,7 @@
 			return buf.m;
 		}
 
-		MyInt MyInt::operator*(int m){ // бинарное умножение, тип A*2 друг класса
+		MyInt MyInt::operator*(int m){ // ГЎГЁГ­Г Г°Г­Г®ГҐ ГіГ¬Г­Г®Г¦ГҐГ­ГЁГҐ, ГІГЁГЇ A*2 Г¤Г°ГіГЈ ГЄГ«Г Г±Г±Г 
 			MyInt buf;
 			long long c;
 			c  = m * n;
