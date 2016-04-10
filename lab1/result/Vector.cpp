@@ -30,7 +30,7 @@ Vector::~Vector() {
 	delete[] x;
 }
 
-float& Vector::operator[](int j) {
+float& Vector::operator[](int j) throw OutOfRange {
 
 	if (j < 0 || j >= Dim) {
 		throw new OutOfRange(j, Dim);
@@ -135,15 +135,13 @@ Vector Vector::operator* (int t) { //B*Const
 }
 
 bool Vector::operator!= (const Vector &B) {
-
-	bool test=false;
-	for (int i=0;i++;i<Dim) {
-		test=(x[i]!=B.x[i]);
-		if (test==true) {
-			return (test);
+	for (int i=0; i<Dim; i++) {
+	//	cout << x[i] << " " << B.x[i];
+		if (x[i]!=B.x[i]){
+			return true;
 		}
 	}
-	return (test);
+	return false;
 }
 
 void Vector::set (int i, float a) {
@@ -174,5 +172,3 @@ void operator<<(ostream& os, const Vector &B) {
 		os << B.x[i] << " ";
 	os << endl;
 }
-
-
