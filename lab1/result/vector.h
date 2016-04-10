@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "MyException.h"
 
 class Vector {
 
@@ -12,7 +13,7 @@ class Vector {
 		Vector(Vector &V);
 		Vector(int Dim, float x[]);
 		Vector::~Vector();
-		float& operator[](int j);
+		float& operator[](int j) throw OutOfRange;
 		Vector& operator= (const Vector& V);
 		Vector operator+ (const Vector &B);
 		float operator, (const Vector &B); //A,B
