@@ -1,93 +1,69 @@
-#include "MyException.h"
-#include <iostream>
+#pragma once
+class MyException {
+public:
+    virtual void what() = 0;
+};
+
+class OutOfRange : public MyException {
+private:
+	int j, Dim;
+
+public:
+	int left, right;
+	char* operat;
+	OutOfRange();
+	OutOfRange(int,int);
+	OutOfRange(char* , int, int);
+	void what();
+	~OutOfRange();
+};
+
+class OutOfFloat : public MyException {
+private:
+	float a,b;
+	double c;
+	char *ch;
+public:
+	OutOfFloat();
+	OutOfFloat(char*, float, float, double);
+	OutOfFloat(char*, float, int, double);
+	void what();
+	~OutOfFloat();
+};
+
+class ErrorInDim : public MyException {
+private:
+	int a, b;
+public:
+	ErrorInDim();
+	ErrorInDim(int, int);
+	void what();
+	~ErrorInDim();
+};
+
+class EmptyMatrix : public MyException {
+public:
+	EmptyMatrix();
+	void what();
+	~EmptyMatrix();
+};
+
+class DivisionByZero  {
+	public: 
+		int num;
+		DivisionByZero(int _num);
+};
 
 
-OutOfRange::OutOfRange(){}
-OutOfRange::~OutOfRange(){}
-
-OutOfRange::OutOfRange(int j, int Dim) {
-	this->j = j;
-	this->Dim = Dim;
-}
-
-OutOfRange::OutOfRange(char* _operat, int _left, int _right){
-		left = _left;
-		right = _right;
-		operat = _operat;
-
-}
-
-void OutOfRange::what() {
-
-	std::cout << std::endl <<"Out of range. " << j << "<0 or "<< j << ">" << Dim << std::endl;
-
-}
-
-ErrorInDim::ErrorInDim() {}
-ErrorInDim::~ErrorInDim() {}
-ErrorInDim::ErrorInDim(int a, int b) {
-	this->a = a;
-	this->b = b;
-}
-
-void ErrorInDim::what() {
-
-	std::cout << "Error in dimensions." << a << "!=" << b << std::endl;
-}
-
-
-OutOfFloat::OutOfFloat() {}
-OutOfFloat::~OutOfFloat() {}
-OutOfFloat::OutOfFloat(char *ch, float a, float b, double c) {
-	this->a = a;
-	this->b = b;
-	this->c = c;
-	this->ch = ch;
-}
-
-OutOfFloat::OutOfFloat(char *ch, float a, int d, double c) {
-	this->a = a;
-	this->b = (float)d;
-	this->c = c;
-	this->ch = ch;
-}
-
-void OutOfFloat::what() {
-
-	std::cout << std::endl << "OutOfFloat. " << ch 
-		<< ". " << a << ", " << b << " = " << c << std::endl;
-}
-
-EmptyMatrix::EmptyMatrix() {}
-void EmptyMatrix::what() {
-	std::cout << "Empty Matrix";
-}
-EmptyMatrix::~EmptyMatrix() {}
-
-
-DivisionByZero::DivisionByZero(int _num){
-		num =_num;			
-}
-
-OutOfInt::OutOfInt() {}
-OutOfInt::~OutOfInt() {}
-OutOfInt::OutOfInt(char *ch, int a, int b, long long c) {
-	this->a = a;
-	this->b = b;
-	this->c = c;
-	this->ch = ch;
-}
-
-OutOfInt::OutOfInt(char *ch, int a, long long c) {
-	this->a = a;
-	this->b = 0;
-	this->c = c;
-	this->ch = ch;
-}
-
-
-void OutOfInt::what() {
-
-	std::cout << std::endl << "OutOfInt. " << ch 
-		<< ". " << a << ", " << b << " = " << c << std::endl;
-}
+class OutOfInt : public MyException {
+private:
+	int a, b;
+	long long c;
+	char *ch;
+public:
+	OutOfInt();
+	OutOfInt(char*, int, int, long long);
+	OutOfInt(char*, int, long long);
+	void what();
+	~OutOfInt();
+};
