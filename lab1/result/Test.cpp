@@ -27,7 +27,7 @@ void Test::MyIntTest() {
 			//exit(1);
 		}
 
-		res = A + B;
+		res = A + 3;
 		if (res != 5){
 			std::cout << "Error operator+ : 5 not equal " << res;
 			//exit(1);
@@ -130,7 +130,7 @@ void Test::TestMyInt() {
 	}
 	
 	if (res!= result_int) {
-		cout << "Expression error - " << result_int << "not equal" << res;
+		cout << "Expression error - " << result_int << " not equal " << res;
 	}
 
 	A = -78, B = 3594, res;
@@ -156,10 +156,11 @@ void Test::TestVector() {
 		int szf = sizeof(x) / 4;
 		Vector A(szf, x), B(szf, y), C(szf);
 		C = -A + 2 * A - A + B * 2;
-		float t[] = { 2, 2, 2, -2.8 };
+		float t[] = { 2, 2, 2, -2.8 }; 
 		Vector Test(szf, t);
 
-		if (C != Test) {
+		bool result = (C != Test);
+		if (result) {
 			cout << "Expression error : " << C;
 			cout << "not equal : " << Test;
 		}
@@ -206,10 +207,21 @@ void Test::TestMatrix() {
 		} catch (MyException *e) {
 		} 
 		
-		float z[] = { 0, 0, 0, 1 };
+		float z[] = { 0, 0, 0, 1.1 };
 		int szf = sizeof(z) / 4;
 		Vector D(szf, z), R(2);
 		R = A*D;
+
+		float sixsix[] = {6.6, 6.6};
+		Vector T1(2, sixsix);
+		
+		for (int i=0; i<2; i++){
+		if (abs(R[i]-T1[i]) > 0.001) {
+		    cout << "Expression R=A*D error : " << R;
+            cout << " not equal : " << T1;
+            cout << endl;
+		}
+		}
 
 		float a[][4] = { { MIN, MAX, MAX, MAX },{ MAX, MAX, MAX, MAX } };
 		float b[][4] = { { 1, 1, MAX, 1 },{ 0, 0, 0, 0 } };
