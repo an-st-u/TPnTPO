@@ -16,11 +16,13 @@ void vin(double &elem) {
 
 void main() {
 
+    
     double mass[] = { 1, 3, 5 , 2 , 3.1, 1.1, 3.5, 17.9, 1.2, 3.1 };
-    vector <double> v2;
+    
     vector <double> v1(mass, mass + 10);
+    vector <double> v2(v1.size());
     std::sort(v1.begin(), v1.end());
-    v2 = v1;
+    copy(v1.begin(), v1.end(), v2.begin());
     for_each(v2.begin(), v2.end(), vin);
     copy(v1.begin(), v1.end(), ostream_iterator<double>(cout, " "));
     cout << endl;
