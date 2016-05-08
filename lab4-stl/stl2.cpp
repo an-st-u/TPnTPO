@@ -16,8 +16,8 @@ void vin(double &elem) {
 
 void main() {
 
+    
     double mass[10];
-    int _size = sizeof(mass) / sizeof(double);
     
     ifstream in;
     in.open("C:\\forN2.txt");
@@ -26,8 +26,8 @@ void main() {
         copy(file_it, end_of_stream, mass);
     }
     
-    vector <double> v1(mass, mass + _size);
-    vector <double> v2(_size);
+    vector <double> v1(mass, mass + 10);
+    vector <double> v2(v1.size());
     std::sort(v1.begin(), v1.end());
     copy(v1.begin(), v1.end(), v2.begin());
     for_each(v2.begin(), v2.end(), vin);
