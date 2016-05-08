@@ -3,49 +3,62 @@
 #include <fstream>
 #include <iterator>
 #include <vector>
+#include <deque>
+#include <list>
 #include <string>
 #include <conio.h>
-
+#include <numeric>
 
 using namespace std;
 
-int main()
-{
-	setlocale(LC_ALL, "Russian");
-	
-	ifstream in_file; // для чтения
-	in_file.open("D:\\text1.txt", ios::in);
-// Создать новый как  двоичный для записи  и чтения  
-	in_file.close();
-	
-	ofstream out_file("D:\\text2.dat", ios::out| ios_base::binary);  	// Открытие двоичного файла для записи
-	out_file.close();
-	_getch();
-	return 0;
+bool op(int elem1, int elem2) {
+    
+    return elem1 > elem2;
+
 }
 
 
-/*
-9. Организовать формирование двоичного файла из имеющегося текстового. Решить предыдущую задачу для двоичного файла.
+int main() {
 
-Ликбез по двоичным файлам:
+    //vector<double> lines; // создаем строковый дек, работа как в векторе
+    list<int> lines; // создаем список список
+    ifstream in("C:\\text_int.txt",ios::in); //ios::binary - бинарное открытие,ios::in - операции ввода
+    ofstream out_file("C:\\text_binary.dat", ios_base::binary);
+    
+    int d;
+    while (true) {
 
-Обычно различают текстовые и двоичные файлы. Текстовые файлы состоят из строк, которые завершаются символом конца строки.
-В программе на С++ этот символ обозначается как '\n'.
+        in >> d;
+        if (in.fail()) { break; }
+        out_file.write((char*)&d, sizeof(int));
+        
+    }
 
-ПРИМЕЧАНИЕ
-В системе Windows строки в текстовом файле завершаются комбинацией двух байтов 0x0D0A, поэтому при операциях ввода-вывода система выполняет 
-преобразование.
+    in.close();
+    out_file.close();
+    
+    in.open("C:\\text_binary.dat", ios::in | ios_base::binary);
+    while (true) {
+        
+        in.read((char*)&d, sizeof(int));
+        if (in.fail()) { break; }
+        lines.push_back(d);
+    }
+    in.close();
 
-Обычно операции обмена с текстовым файлом сопровождаются преобразованием информации аналогично тому, как это происходит 
-для стандартных потоков. По нашей классификации, приведенной в начале главы, текстовые файлы являются форматируемыми.
-Форматирование не выполняется только в том случае, если содержимое текстового файла обрабатывается именно как символы и строки.
-
-Двоичные файлы не разбиваются на строки, и никаких преобразований при обмене не выполняется — двоичные файлы не являются форматируемыми. 
-Это, во-первых, означает, что операции обмена для двоичных файлов выполняются быстрее. 
-Во-вторых, при операции записи в двоичный файл попадает ровно столько байтов, сколько записываемый объект занимает в памяти. 
-Например, целое число, записанное в двоичный файл, займет на диске sizeof(int) байтов. 
-Это существенно отличается от записи в текстовый файл, где количество записываемых по умолчанию символов зависит от величины числа. 
-Например, число 12 в текстовом файле займет 2 или 3 байта (в зависимости от того, выводится ли число со знаком или без него), 
-а 123 456 — 6 или 7 байт. Примером двоичного файла является исполняемый файл (с расширением exe).
-*/
+    lines.sort(op);
+    //sort(lines.begin(), lines.end(), op); // сортируем контейнер
+                                      // и записываем отсортированный контейнер в новый файл
+    out_file.open("C:\\text52.txt", ios::out); //открыть для записи
+    ostream_iterator<int> file_out(out_file, " ");
+    copy(lines.begin(), lines.end(), file_out);
+    out_file.close();
+    copy(lines.begin(), lines.end(), ostream_iterator<int>(cout, " "));
+    cout << endl;
+    cout << "quantity: "<< lines.size() << endl;
+    cout << "average: " << accumulate(lines.begin(), lines.end(), 0.0) / lines.size() << endl;
+    int n = *max_element(lines.begin(), lines.end()) - *min_element(lines.begin(), lines.end());
+    cout << "range: " << n << endl;
+    _getch();
+    return 0;
+}
