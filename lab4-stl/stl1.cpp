@@ -14,10 +14,8 @@ void vin(double &elem) {
 
 }
 
-void main()
-{
+void main() {
 
-    
     double mass[] = { 1, 3, 5 , 2 , 3.1, 1.1, 3.5, 17.9, 1.2, 3.1 };
     vector <double> v2;
     vector <double> v1(mass, mass + 10);
