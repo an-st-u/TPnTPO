@@ -8,29 +8,26 @@
 
 using namespace std;
 
-int main()
-{
-	string s;
-	vector<string> lines; // создаем строковый вектор
 
-	// читаем файл в контейнер построчно
-	ifstream in_file("D:\\text1.txt", ios::in); // для чтения
-	while(getline(in_file, s)) // до конца строки
-		lines.push_back(s); //Для добавления нового элемента в конец вектора используется метод push_back()
-	in_file.close();
+int main() {
 
-	sort(lines.begin(), lines.end()); // сортируем контейнер
+    vector<string> lines; // создаем строковый вектор
+    ifstream in("C:\\text51.txt");
+    if (!in.fail()) {
+        istream_iterator<string> file_it(in), end_of_stream;
+        copy(file_it, end_of_stream, back_inserter(lines));
+    }
+    in.close();
 
-	// и записываем отсортированный контейнер в новый файл
-	vector<string>::iterator i = lines.begin();
-	ofstream out_file("D:\\text2.txt", ios::out); //открыть для записи
-	for(i; i != lines.end(); ++i){
-		out_file << *i << endl;
-		cout << *i << endl;
-	}
-	out_file.close();
-	_getch();
-	return 0;
+    sort(lines.begin(), lines.end()); // сортируем контейнер
+    // и записываем отсортированный контейнер в новый файл
+    ofstream out_file("C:\\text52.txt", ios::out); //открыть для записи
+    ostream_iterator<string> file_out(out_file,"\n");
+    copy(lines.begin(), lines.end(), file_out);
+    out_file.close();
+    copy(lines.begin(), lines.end(), ostream_iterator<string>(cout, "\n"));
+    _getch();
+    return 0;
 }
 
 /*
