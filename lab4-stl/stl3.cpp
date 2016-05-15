@@ -1,79 +1,86 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <fstream>
-#include <string.h>
+#include <string>
 #include <vector>
-#define CLR while(fgetc(input) == '\n')
+#include <iterator>
+#include <algorithm>
+#include <cstring>
+
 
 using namespace std;
 
-void sortByName(vector<char*> stringVector)
-{
-    char temp[81];
-    bool exit = false;
+vector<char*> readFromFile(string pathToFile);  //считывания с файла
+void insertInVectorChar(string str);    //перевод из vector<string> в vector<char>
+bool comparisionFunc(const char *str1, const char *str2); //сревнение строк
+void showAllStr(char *str) {cout << str << endl;}   //вывод всех элементов вектора на консоль
+void saveInFile(string pathToCatalog, string fileName); //сохранение в файл
 
-    while (!exit)
-    {
-        exit = true;
-        for (vector<char*>::iterator i = stringVector.begin(); i != stringVector.end() - 1; i++)
-            if (strcmp(*i, *(i+1)) > 0)
-            {
-                strcpy(temp, *i);
-                strcpy(*i, *(i+1));
-                strcpy(*(i+1), temp);
-                exit = false;
-            }
-    }
-}
+vector<char*> endStr;
 
 int main()
 {
-    FILE *input, *output;
-    char filename[81]; //Вводить без .txt
-    vector<char*> stringVector;
 
-    char bufname[81];
+    string pathToFile="C:\\test.txt";
+    //получаем имя файла
+    string nameFile=pathToFile.substr(pathToFile.rfind('\\')+1,pathToFile.rfind('.')-(pathToFile.rfind('\\')+1));
 
-    do
-    {
-        cout << "Enter input-file name (without '.txt'):" << endl;
-        cin >> filename;
-        strcpy(bufname, filename);
-        input = fopen(strcat(filename, ".txt"), "r");
-    }
-    while(input == NULL);
+    readFromFile(pathToFile);
 
-    int count = 0;
-    while(!feof(input))
-    {
-        char buf[81];
-        fgets(buf, 81, input);
-        count++;
-    }
-    fclose(input);
+    sort(endStr.begin(), endStr.end(), comparisionFunc);
+    for_each(endStr.begin(), endStr.end(), showAllStr);
 
-    stringVector.reserve(count);
-    input = fopen(filename, "r");
-
-    char* buf;
-    while(!feof(input))
-    {
-        buf = new char[81];
-        fgets(buf, 81, input);
-        stringVector.push_back(buf);
-    }
-    fclose(input);
-
-    sortByName(stringVector);
-
-    output = fopen(strcat(bufname, ".srt"), "w");
-
-    for(vector<char*>::iterator i = stringVector.begin(); i != stringVector.end(); i++)
-    {
-        fprintf(output, "%s", *i);
-        cout << *i;
-    }
-
-    fclose(output);
+    saveInFile("C:\\", test1);
 
     return 0;
+}
+vector<char*> readFromFile(string pathToFile)
+{
+    vector<string> arrayStr;
+    ifstream fileIn;
+    fileIn.open(pathToFile);
+    if (fileIn.is_open())
+    {
+        istream_iterator<string> iterBegin(fileIn), iterEnd;
+        copy(iterBegin, iterEnd, back_inserter(arrayStr));
+        for_each(arrayStr.begin(), arrayStr.end(), insertInVectorChar);
+
+        fileIn.close();
+    }
+    else
+    {
+        cout << "Can't open file "+pathToFile;
+    }
+    return endStr;
+}
+
+void insertInVectorChar(string str)
+{
+    char *cstr = new char[str.size() + 1];
+    strcpy(cstr, str.c_str());
+    cstr[str.size()]='\0';
+    endStr.push_back(cstr);
+}
+
+bool comparisionFunc(const char *str1, const char *str2)
+{
+    return strcmp(str1, str2) < 0;
+}
+
+void saveInFile(string pathToCatalog, string fileName)
+{
+    ofstream fileOut;
+    fileOut.open((pathToCatalog+fileName+".str").c_str(),ios_base::out|ios_base::trunc);
+    if(fileOut.is_open())
+    {
+        ostream_iterator<char*> iterBegin(fileOut, "\n");
+        copy(endStr.begin(),endStr.end(),iterBegin);
+        fileOut.close();
+        cout<<"Файл "+fileName+".str"+" сохранен в "+pathToCatalog<<endl;
+    }
+    else
+    {
+        cout<<"Can't open file "+pathToCatalog+fileName+".str";
+    }
 }
