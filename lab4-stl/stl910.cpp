@@ -15,16 +15,16 @@ using namespace std;
 /*--------------------------------------------------------------------------------------*/
 struct interval 
 {
-	float begin;
-	float end;
+	float begin; //Начало интервала
+	float end; //Конец интервала
 };
 
-int count(interval Interval, list<int> IntList)
+int count(interval Interval, list<int> IntList) //Функция, считающее кол-во чисел из списка IntList, входящих в интервал Interval
 {
 	int counter = 0;
 	for each (int currNumber in IntList)
 	{
-		if (currNumber >= Interval.begin && currNumber < Interval.end)
+		if (currNumber >= Interval.begin && currNumber < Interval.end) //Т.к. конец текущего интервала и начало следующего совпадают, одно из неравенств делаем строгим
 			counter++;
 	}
 	return counter;
@@ -86,15 +86,16 @@ int main()
 
 	/*--------------------------------------------------------------------------------------*/
 	/*--------------------------------------------------------------------------------------*/
-	list<interval> Intervals = list<interval>();
+	list<interval> Intervals = list<interval>(); //Список интервалов
 	int counter = 0;
-	const int numberOfIntervals = 10;
-	float IntervalLength = (*max_element(lines.begin(), lines.end()) - *min_element(lines.begin(), lines.end())) / (float)numberOfIntervals;
-	if (IntervalLength > 0)
+	const int numberOfIntervals = 10; //Количество интервалов
+	float IntervalLength = (*max_element(lines.begin(), lines.end()) - *min_element(lines.begin(), lines.end())) / (float)numberOfIntervals; //Длина каждого интервала
+	if (IntervalLength > 0) //Если возможно разбить список чисел на интервалы
 	{
 		for (int i = 0; i < numberOfIntervals; i++)
 		{
-			interval currInterval;
+			interval currInterval; //Буферный интервал
+			/* Последовательно устанавливаем значения интервалов и записываем их в Intervals */
 			currInterval.begin = *min_element(lines.begin(), lines.end()) + IntervalLength*i;
 			currInterval.end = currInterval.begin + IntervalLength;
 			Intervals.push_back(currInterval);
@@ -106,10 +107,10 @@ int main()
 		cout << endl;
 		int MinIndex = 0;
 		int MaxIndex = 0;
-		int MinValue = count(Intervals.front(), lines);
+		int MinValue = count(Intervals.front(), lines); //Задаём начальные значения MinValue и MaxValue соответствующими первому интервалу
 		int MaxValue = count(Intervals.front(), lines);
 		counter = 0;
-		for each (interval currInterval in Intervals)
+		for each (interval currInterval in Intervals) //Поиск минимального и максимального интервалов
 		{
 			if (MinValue > count(currInterval, lines))
 			{
@@ -124,6 +125,7 @@ int main()
 				counter++;
 			}
 		}
+		/* Т.к. функция count не учитывает последний эл-т в каждом интервале, необходимо отдельно рассмотреть верхнюю границу последнего интервала */
 		if (MinValue > count(Intervals.back(), lines) + 1)
 		{
 			MinValue = count(Intervals.back(), lines);
