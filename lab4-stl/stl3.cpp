@@ -8,13 +8,11 @@
 #include <algorithm>
 #include <cstring>
 
-
 using namespace std;
 
 vector<char*> readFromFile(string pathToFile);  //считывания с файла
 void insertInVectorChar(string str);    //перевод из vector<string> в vector<char>
 bool comparisionFunc(const char *str1, const char *str2); //сревнение строк
-void showAllStr(char *str) {cout << str << endl;}   //вывод всех элементов вектора на консоль
 void saveInFile(string pathToCatalog, string fileName); //сохранение в файл
 
 vector<char*> endStr;
@@ -22,17 +20,17 @@ vector<char*> endStr;
 int main()
 {
 
-    string pathToFile="C:\\test.txt";
+    string pathToFile = "C:\\test.txt";
     //получаем имя файла
-    string nameFile=pathToFile.substr(pathToFile.rfind('\\')+1,pathToFile.rfind('.')-(pathToFile.rfind('\\')+1));
+    string nameFile = pathToFile.substr(pathToFile.rfind('\\') + 1, pathToFile.rfind('.') - (pathToFile.rfind('\\') + 1));
 
     readFromFile(pathToFile);
 
     sort(endStr.begin(), endStr.end(), comparisionFunc);
-    for_each(endStr.begin(), endStr.end(), showAllStr);
+    copy(endStr.begin(), endStr.end(), ostream_iterator<char*>(cout, "\n")); //вывод всех элементов вектора на консоль
 
-    saveInFile("C:\\", test1);
-
+    saveInFile("C:\\", "test1");
+    system("pause");
     return 0;
 }
 vector<char*> readFromFile(string pathToFile)
@@ -50,7 +48,7 @@ vector<char*> readFromFile(string pathToFile)
     }
     else
     {
-        cout << "Can't open file "+pathToFile;
+        cout << "Can't open file " + pathToFile;
     }
     return endStr;
 }
@@ -59,7 +57,7 @@ void insertInVectorChar(string str)
 {
     char *cstr = new char[str.size() + 1];
     strcpy(cstr, str.c_str());
-    cstr[str.size()]='\0';
+    cstr[str.size()] = '\0';
     endStr.push_back(cstr);
 }
 
@@ -71,16 +69,16 @@ bool comparisionFunc(const char *str1, const char *str2)
 void saveInFile(string pathToCatalog, string fileName)
 {
     ofstream fileOut;
-    fileOut.open((pathToCatalog+fileName+".str").c_str(),ios_base::out|ios_base::trunc);
-    if(fileOut.is_open())
+    fileOut.open((pathToCatalog + fileName + ".str").c_str(), ios_base::out | ios_base::trunc);
+    if (fileOut.is_open())
     {
         ostream_iterator<char*> iterBegin(fileOut, "\n");
-        copy(endStr.begin(),endStr.end(),iterBegin);
+        copy(endStr.begin(), endStr.end(), iterBegin);
         fileOut.close();
-        cout<<"Файл "+fileName+".str"+" сохранен в "+pathToCatalog<<endl;
+        cout << "File " + fileName + ".str" + " save to " + pathToCatalog << endl;
     }
     else
     {
-        cout<<"Can't open file "+pathToCatalog+fileName+".str";
+        cout << "Can't open file " + pathToCatalog + fileName + ".str";
     }
 }
