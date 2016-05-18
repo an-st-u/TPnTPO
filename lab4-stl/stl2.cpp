@@ -1,47 +1,85 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
-#include <conio.h>
 #include <iterator>
 #include <algorithm>
-#include <numeric>
-#include <fstream>
+#include <cstring>
 
-using namespace std;
 
-void vin(double &elem) {
+    using namespace std;
 
-    elem =  pow(elem, 2);
+vector<char*> readFromFile(string pathToFile);  //считывания с файла
+void insertInVectorChar(string str);    //перевод из vector<string> в vector<char>
+bool comparisionFunc(const char *str1, const char *str2); //сревнение строк
+ void saveInFile(string pathToCatalog, string fileName); //сохранение в файл
 
+vector<char*> endStr;
+
+int main()
+{
+
+    string pathToFile = "C:\\test.txt";
+    //получаем имя файла
+    string nameFile = pathToFile.substr(pathToFile.rfind('\\') + 1, pathToFile.rfind('.') - (pathToFile.rfind('\\') + 1));
+
+    readFromFile(pathToFile);
+
+    sort(endStr.begin(), endStr.end(), comparisionFunc);
+    copy(endStr.begin(), endStr.end(), ostream_iterator<char*>(cout, "\n")); //вывод всех элементов вектора на консоль
+
+    saveInFile("C:\\", "test1");
+    system("pause");
+    return 0;
 }
+vector<char*> readFromFile(string pathToFile)
+{
+    vector<string> arrayStr;
+    ifstream fileIn;
+    fileIn.open(pathToFile);
+    if (fileIn.is_open())
+    {
+        istream_iterator<string> iterBegin(fileIn), iterEnd;
+        copy(iterBegin, iterEnd, back_inserter(arrayStr));
+        for_each(arrayStr.begin(), arrayStr.end(), insertInVectorChar);
 
-void main() {
-
-
-    double mass[10];
-
-    ifstream in;
-    in.open("C:\\forN2.txt");
-    if (!in.fail()) {
-        istream_iterator<double> file_it(in), end_of_stream;
-        copy(file_it, end_of_stream, mass);
+        fileIn.close();
     }
-
-    vector <double> v1(mass, mass + 10);
-    vector <double> v2;
-    std::sort(v1.begin(), v1.end());
-    copy(v1.begin(), v1.end(), back_inserter(v2));
-    for_each(v2.begin(), v2.end(), vin);
-    copy(v1.begin(), v1.end(), ostream_iterator<double>(cout, " "));
-    cout << endl;
-    copy(v2.begin(), v2.end(), ostream_iterator<double>(cout, " "));
-    cout << endl;
-    double total;
-    total = accumulate(v1.begin(), v1.end(), 0.0);
-    cout << endl << "============" << endl;
-    cout << "sum v1 = " << total << " ";
-    total = accumulate(v2.begin(), v2.end(), 0.0);
-    cout << "sum v2 = " << total;
-    cout << endl;
-    _getch();
+    else
+    {
+        cout << "Can't open file " + pathToFile;
+    }
+    return endStr;
 }
 
+void insertInVectorChar(string str)
+{
+    char *cstr = new char[str.size() + 1];
+    strcpy(cstr, str.c_str());
+    cstr[str.size()] = '\0';
+    endStr.push_back(cstr);
+}
+
+bool comparisionFunc(const char *str1, const char *str2)
+{
+    return strcmp(str1, str2) < 0;
+}
+
+void saveInFile(string pathToCatalog, string fileName)
+{
+    ofstream fileOut;
+    fileOut.open((pathToCatalog + fileName + ".str").c_str(), ios_base::out | ios_base::trunc);
+    if (fileOut.is_open())
+    {
+        ostream_iterator<char*> iterBegin(fileOut, "\n");
+        copy(endStr.begin(), endStr.end(), iterBegin);
+        fileOut.close();
+        cout << "File " + fileName + ".str" + " save to " + pathToCatalog << endl;
+    }
+    else
+    {
+        cout << "Can't open file " + pathToCatalog + fileName + ".str";
+    }
+}
