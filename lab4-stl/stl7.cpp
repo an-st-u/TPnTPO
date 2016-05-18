@@ -16,23 +16,23 @@
 using namespace std;
 
 void readFromFile(string pathToFile);  //считывания с файла
-void showAllCompElement(int element) {cout << element << ' ';}   //вывод всех элементов вектора на консоль
 bool comparisionFunc(const int elem1, const int elem2); //сревнение строк
 void getFreq(int element);  //подсчитывает частоту значений
 void showAllFreqElement();  //выводит отображнения
 
 list<int> listInt;
-map<int,int> valueAndFreq;
+map<int, int> valueAndFreq;
 
 int main()
 {
-    readFromFile("С\\int.txt");                     //!!путь
+    readFromFile("C://text_int.txt");                     //!!путь
     listInt.sort();
-    cout << "Отсортированный список: ";
-    for_each(listInt.begin(),listInt.end(),showAllCompElement);
-    cout<<endl;
-    for_each(listInt.begin(),listInt.end(),getFreq);
+    cout << "Sorted list: ";
+    copy(listInt.begin(), listInt.end(), ostream_iterator<int>(cout," "));
+    cout << endl;
+    for_each(listInt.begin(), listInt.end(), getFreq);
     showAllFreqElement();
+    system("pause");
     return 0;
 }
 
@@ -48,23 +48,23 @@ void readFromFile(string pathToFile)
     }
     else
     {
-        cout << "Can't open file "+pathToFile;
+        cout << "Can't open file " + pathToFile;
     }
 }
 
-bool comparisionFunc (const int elem1, const int elem2)
+bool comparisionFunc(const int elem1, const int elem2)
 {
     return elem1<elem2;
 }
 
 void getFreq(int element)
 {
-    valueAndFreq[element]=count(listInt.begin(),listInt.end(),element);
+    valueAndFreq[element] = count(listInt.begin(), listInt.end(), element);
 }
 
 void showAllFreqElement()
 {
-    map<int,int>::iterator iterMap;
-    for(iterMap=valueAndFreq.begin();iterMap!=valueAndFreq.end();iterMap++)
-        cout<<"Value: "<<iterMap->first<< '\t'<<"Count: "<<iterMap->second<<endl;
+    map<int, int>::iterator iterMap;
+    for (iterMap = valueAndFreq.begin(); iterMap != valueAndFreq.end(); iterMap++)
+        cout << "Value: " << iterMap->first << '\t' << "Count: " << iterMap->second << endl;
 }
