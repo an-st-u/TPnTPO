@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+#define forsnow for (int i = 1; i < density; i++)
+
 
 struct snowflake {
 	int x;
@@ -36,7 +38,7 @@ void drawBackground(HDC &hdc) {
 bool snowMove(snowflake snow[], int height, int width, int density) {
 
 	//Генерируем движение 
-	for (int i = 0; i < density; i++) {
+	forsnow {
 		//Сверху вниз
 		if (snow[i].y > height) {
 			snow[i].y -= height;
@@ -90,14 +92,13 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 
 	//Генериреум массив снежинок
 	snowflake *snow = new  snowflake[density];
-	for (int i = 1; i < density; i++) {
+	forsnow {
 		snow[i].x = rand() % width + 5;
 		snow[i].y = rand() % height + 5;
 		snow[i].rgb = GetPixel(hdc, snow[i].x, snow[i].y);
 	}
 
 	bool exit = false;
-
 	while (exit == false) {
 
 		// Cоздаем контекст
@@ -110,21 +111,21 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 		BitBlt(hmemDC, 0, 0, width, height, hdc, 0, 0, SRCCOPY);
 
 		//Очистить экран
-		for (int i = 0; i < density; i++) {
-				SetPixel(hmemDC, snow[i].x, snow[i].y, snow[i].rgb);
+		forsnow {
+			SetPixel(hmemDC, snow[i].x, snow[i].y, snow[i].rgb);
 		}
 
 		//Выполнить перемещения
 		exit = snowMove(snow, height, width, density);
 
 		//Сфотографировать фон
-		for (int i = 0; i < density; i++) {
-				snow[i].rgb = GetPixel(hmemDC, snow[i].x, snow[i].y);
+		forsnow {
+			snow[i].rgb = GetPixel(hmemDC, snow[i].x, snow[i].y);
 		}
 		
 		//Нарисовать пиксели
-		for (int i = 0; i < density; i++) {
-				SetPixel(hmemDC, snow[i].x, snow[i].y, RGB(255, 255, 255));		
+		forsnow {
+			SetPixel(hmemDC, snow[i].x, snow[i].y, RGB(255, 255, 255));		
 		}
 		
 		//Выводим наш bmb на экран
