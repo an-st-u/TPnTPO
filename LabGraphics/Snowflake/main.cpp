@@ -10,17 +10,7 @@ struct snowflake {
 	COLORREF rgb;
 };
 
-void drawSnowflake(snowflake& snow) {
-
-}
-
-
-
-void MyPoint(HDC &hdc, HWND &hwnd, int density) {
-
-	int width = 800, height = 500;
-	//MoveWindow(hwnd, width / 2, 100, width, height, TRUE);
-
+void drawBackground(HDC &hdc) {
 
 	HBRUSH hBlueBrush, hBlackBrush;
 	hBlueBrush = CreateSolidBrush(RGB(68, 147, 235));
@@ -37,7 +27,68 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 	SetTextColor(hdc, RGB(68, 147, 235));
 	TCHAR n[50] = TEXT("Hello, world!!");
 	TextOut(hdc, 550, 40, n, ARRAYSIZE(n));
+	DeleteObject(hBlueBrush);
+	DeleteObject(hBlackBrush);
+	DeleteObject(hfont);
+	DeleteObject(hNewf1);
+}
 
+bool snowMove(snowflake snow[], int height, int width, int density) {
+
+	//Генерируем движение 
+	for (int i = 0; i < density; i++) {
+		//Сверху вниз
+		if (snow[i].y > height) {
+			snow[i].y -= height;
+		} else {
+			snow[i].y++;
+		}
+
+		//Слева направо (ветер)
+		if (snow[i].x % 2 == 0) {
+			snow[i].x -= rand() % 4 + 1;
+			if (snow[i].x < 0) {
+				snow[i].x += width;
+			}
+		}
+		else {
+			snow[i].x += rand() % 2 + 1;
+			if (snow[i].x > width) {
+				snow[i].x -= width;
+			}
+		}
+	}
+
+	//Снимаем клавиши
+	if (GetAsyncKeyState(VK_ESCAPE)) {
+		return true;
+	}
+	else if (GetAsyncKeyState(VK_RIGHT)) {
+		for (int i = 0; i < density; i++) {
+			snow[i].x += 3;
+			if (snow[i].x > width) {
+				snow[i].x -= width;
+			}
+		}
+	}
+	else if (GetAsyncKeyState(VK_LEFT)) {
+		for (int i = 0; i < density; i++) {
+			snow[i].x -= 3;
+			if (snow[i].x < 0) {
+				snow[i].x += width;
+			}
+		}
+	}
+	return false;
+}
+
+
+void MyPoint(HDC &hdc, HWND &hwnd, int density) {
+
+	int width = 800, height = 500;
+	drawBackground(hdc);
+
+	//Генериреум массив снежинок
 	snowflake *snow = new  snowflake[density];
 	for (int i = 1; i < density; i++) {
 		snow[i].x = rand() % width + 5;
@@ -46,7 +97,7 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 	}
 
 	bool exit = false;
-	int k = 0;
+
 	while (exit == false) {
 
 		// Cоздаем контекст
@@ -57,55 +108,24 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 		SelectObject(hmemDC, hbmpTarget);
 		BitBlt(hmemDC, 0, 0, width, height, hdc, 0, 0, SRCCOPY);
 
+		//Очистить экран
 		for (int i = 0; i < density; i++) {
 			if (snow[i].y > height) {
 				SetPixel(hmemDC, snow[i].x, snow[i].y, snow[i].rgb);
-				snow[i].y -= height;
-			}
-			else {
+			} else {
 				SetPixel(hmemDC, snow[i].x, snow[i].y, snow[i].rgb);
-				snow[i].y++;
-				if (snow[i].x % 2 == 0) {
-					snow[i].x -= rand() % 4 + 1;
-					if (snow[i].x < 0) {
-						snow[i].x += width;
-					}
-				}
-				else {
-					snow[i].x += rand() % 2 + 1;
-					if (snow[i].x > width) {
-						snow[i].x -= width;
-					}
-				}
 			}
 		}
 
-		if (GetAsyncKeyState(VK_ESCAPE)) {
-			exit = true;
-		}
-		else if (GetAsyncKeyState(VK_RIGHT)) {
-			for (int i = 0; i < density; i++) {
-				snow[i].x+=3;
-				if (snow[i].x > width) {
-					snow[i].x -= width;
-				}
-			}
-		}
-		else if (GetAsyncKeyState(VK_LEFT)) {
-			for (int i = 0; i < density; i++) {
-				snow[i].x-=3;
-				if (snow[i].x < 0) {
-					snow[i].x += width;
-				}
-			}
-		}
+		//Выполнить перемещения
+		exit = snowMove(snow, height, width, density);
 
-
+		//Сфотографировать фон
 		for (int i = 0; i < density; i++) {
 				snow[i].rgb = GetPixel(hmemDC, snow[i].x, snow[i].y);
 		}
 		
-		
+		//Нарисовать пиксели
 		for (int i = 0; i < density; i++) {
 			if (snow[i].y > height) {
 				SetPixel(hmemDC, snow[i].x, snow[i].y, RGB(255, 255, 255));		
@@ -113,21 +133,17 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 				SetPixel(hmemDC, snow[i].x, snow[i].y, RGB(255, 255, 255));
 			}
 		}
-
-				
+		
+		//Выводим наш bmb на экран
 		BitBlt(hdc, 0, 0, width, height, hmemDC, 0, 0, SRCCOPY);
-		// свобождаем контекст
+		// освобождаем контекст
 		DeleteDC(hmemDC); // контекст отжирает уйму ресурсов, поэтому не забудем его грохнуть
 		hmemDC = NULL;
 		Sleep(33);
 	}
 }
 
-
-
-int main()
-
-{
+int main() {
 
 	std::ifstream in;
 	HWND hwnd = GetConsoleWindow();
