@@ -106,15 +106,12 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 		HBITMAP hbmpTarget = CreateCompatibleBitmap(hdc,width, height);
 		// Выбираем битмап в контекст
 		SelectObject(hmemDC, hbmpTarget);
+		//Записывает наш bmb в память
 		BitBlt(hmemDC, 0, 0, width, height, hdc, 0, 0, SRCCOPY);
 
 		//Очистить экран
 		for (int i = 0; i < density; i++) {
-			if (snow[i].y > height) {
 				SetPixel(hmemDC, snow[i].x, snow[i].y, snow[i].rgb);
-			} else {
-				SetPixel(hmemDC, snow[i].x, snow[i].y, snow[i].rgb);
-			}
 		}
 
 		//Выполнить перемещения
@@ -127,11 +124,7 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 		
 		//Нарисовать пиксели
 		for (int i = 0; i < density; i++) {
-			if (snow[i].y > height) {
 				SetPixel(hmemDC, snow[i].x, snow[i].y, RGB(255, 255, 255));		
-			} else {
-				SetPixel(hmemDC, snow[i].x, snow[i].y, RGB(255, 255, 255));
-			}
 		}
 		
 		//Выводим наш bmb на экран
