@@ -106,7 +106,7 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 		// Cоздаем битмап
 		HBITMAP hbmpTarget = CreateCompatibleBitmap(hdc,width, height);
 		// Выбираем битмап в контекст
-		SelectObject(hmemDC, hbmpTarget);
+		::SelectObject(hmemDC, hbmpTarget);
 		//Записывает наш bmb в память
 		BitBlt(hmemDC, 0, 0, width, height, hdc, 0, 0, SRCCOPY);
 
