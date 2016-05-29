@@ -1,0 +1,92 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define BN 100
+#include <windows.h>
+#include <conio.h>
+#include <ctime>
+#include <string.h>
+#include <iostream>
+
+int randColor() {
+	return 1 + rand() % 255;
+}
+
+int Paint(HDC &hdc, int width, int height) {
+	
+	int x[BN], y[BN];
+	bool stop = false;
+	int n = 0;
+	while (stop == false) {
+		
+		if (GetAsyncKeyState(VK_ESCAPE)) {
+			_getch();
+			stop = true;
+		}
+			
+		// Cоздаем контекст
+		HDC hmemDC = CreateCompatibleDC(hdc);
+		// Cоздаем битмап
+		HBITMAP hbmpTarget = CreateCompatibleBitmap(hdc, width, height);
+		// Выбираем битмап в контекст
+		::SelectObject(hmemDC, hbmpTarget);
+		//Записывает наш bmb в память
+		BitBlt(hmemDC, 0, 0, width, height, hdc, 0, 0, SRCCOPY);
+
+		for (int i = 0; i<BN; i++) {
+			x[i] = rand() % width;
+			y[i] = rand() % height;
+
+			if (GetPixel(hmemDC, x[i], y[i]) == RGB(0, 0, 0)) {
+				SetPixel(hdc, x[i], y[i], RGB(randColor(), randColor(), randColor()));
+				n++;
+			}
+			else {
+				SetPixel(hdc, x[i], y[i], RGB(0, 0, 0));
+				n--;
+			}
+		}
+
+		DeleteDC(hmemDC); // контекст отжирает уйму ресурсов, поэтому не забудем его грохнуть
+		DeleteObject(hbmpTarget);
+		hmemDC = NULL;
+	}
+	return n;
+};
+
+double Rate(int n, int width, int height) {
+	int all = width * height;
+	double k = n * 100 / (double)all;
+	return k;
+};
+
+int main()
+{
+
+	//hwnd - дескриптор окна, в котором будем рисовать
+	HWND hwnd = GetConsoleWindow();//получение консольного окна
+								   //hdc - дескриптор контекста устройства
+	HDC hdc = GetDC(hwnd); //получаем дискриптор,свзянный с окном, в котором будем рисовать
+
+	if (hdc) {
+		int width = 800, height = 500;
+		int n = Paint(hdc,width,height);//вызываем функцию рисования звезд
+		double count = Rate(n, width, height);// количество звезд
+		HFONT hfont, myfont;//шрифт
+		myfont = CreateFont(38, 0, 0, 0, 700, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DRAFT_QUALITY, FIXED_PITCH | FF_ROMAN, "Algerian");//создаем шрифт
+		hfont = (HFONT)SelectObject(hdc, myfont);
+		SetTextColor(hdc, RGB(0, 0xff, 0));//задаем цвет текста
+		SetBkMode(hdc, 0);//фон закрашивается текущим цветом фона	
+		char t2[30] = "";
+		_gcvt(count, 4, t2);//конвертируем количество процентов в строку 
+		char t1[] = "The rate of star's fill is ";
+		char t3[] = "%";
+		char str[60] = "";
+		strcat_s(str, t1);
+		strcat_s(str, t2);
+		strcat_s(str, t3);
+		TextOut(hdc, 100, 120, str, ARRAYSIZE(str)); //освобождаем контекст
+		ReleaseDC(hwnd, hdc);
+	}
+
+	_getch();
+	return 0;
+}
