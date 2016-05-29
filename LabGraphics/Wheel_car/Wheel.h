@@ -1,3 +1,6 @@
+#include "circle.h"
+#include "gcroot.h"
+#include "line.h"
 #include <cmath> 
 #define PI 3.14159265 
 #define MAX_RANGS_COUNT 100
@@ -15,11 +18,15 @@ public:
 	Circle circle1;
 
 	Wheel();
+
 	void add1(Circle circle1, Line *b2);
 	
-    virtual void hide();
-    virtual void show();
-	virtual void move(int dx, int dy);
+	
+    void hide();
+    void show();
+
+	void move(int dx, int dy);
+	void move1(int dx, int dy);
 
 
 };
