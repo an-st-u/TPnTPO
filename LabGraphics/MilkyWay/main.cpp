@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define BN 5000
+#define BN 2000
 #include <windows.h>
 #include <conio.h>
 #include <ctime>
@@ -80,6 +80,7 @@ int Paint(HDC &hdc, int width, int height) {
 		DeleteDC(hmemDC); // контекст отжирает уйму ресурсов, поэтому не забудем его грохнуть
 		DeleteObject(hbmpTarget);
 		hmemDC = NULL;
+		Sleep(10);
 	}
 	return n;
 };
