@@ -54,8 +54,20 @@ void Wheel::show()
 }
 
 
+void Wheel::move1(int dx, int dy)
+{
+
+    for(unsigned i = 0; i < this->count; i++) {
+        this->objects[i]->move(dx, dy);
+    }
+
+}
+
+
+
 void Wheel::move(int dx, int dy)
 {
+
     this->hide();
 
 
@@ -71,18 +83,20 @@ void Wheel::move(int dx, int dy)
 	this->x2 += dx;
 	this->y2 += dy;
 
+	this->show();
+}
 
 	/*this->x1 += ((dx) * 2 - r*sin((dx) * PI /(PI * r))); 
 	this->y1 += r - r*cos((dy) * PI / (PI * r)); 
 
 
 	this->x2 += ((dx) * 2 - r*sin((dx) * PI /(PI * r))); 
-    this->y2 += r - r*cos((dy) * PI / (PI * r));*/
+    this->y2 += r - r*cos((dy) * PI / (PI * r));
 
     this->show();
 
 }
-
+/*
 
 /*this->x1 += dx; 
 this->y1 = y1; 
