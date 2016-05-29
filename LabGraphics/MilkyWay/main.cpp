@@ -1,13 +1,44 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define BN 100
+#define BN 5000
 #include <windows.h>
 #include <conio.h>
 #include <ctime>
 #include <string.h>
 #include <iostream>
 
+double Rate(int n, int width, int height) {
+	int all = width * height;
+	double k = n * 100 / (double)all;
+	return k;
+};
+
 int randColor() {
 	return 1 + rand() % 255;
+}
+
+void PText(HDC &hdc, double count) {
+
+	HFONT hfont, myfont;//шрифт
+	myfont = CreateFont(38, 0, 0, 0, 700, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DRAFT_QUALITY, FIXED_PITCH | FF_ROMAN, "Algerian");//создаем шрифт
+	hfont = (HFONT)SelectObject(hdc, myfont);
+	SetTextColor(hdc, RGB(255, 0, 0));//задаем цвет текста
+	SetBkMode(hdc, 0);//фон закрашивается текущим цветом фона	
+	char t2[30] = "";
+	_gcvt(count, 4, t2);//конвертируем количество процентов в строку 
+	char t1[] = "The rate of star's fill is ";
+	char t3[] = "%";
+	char str[60] = "";
+	strcat_s(str, t1);
+	strcat_s(str, t2);
+	strcat_s(str, t3);
+	HBRUSH hBlackBrush = CreateSolidBrush(RGB(0, 0, 0));
+	SelectObject(hdc, hBlackBrush);
+	Rectangle(hdc, 70, 510, 800, 550);
+	TextOut(hdc, 70, 510, str, ARRAYSIZE(str));
+	DeleteObject(hfont);
+	DeleteObject(myfont);
+	DeleteObject(hBlackBrush);
+
 }
 
 int Paint(HDC &hdc, int width, int height) {
@@ -45,6 +76,7 @@ int Paint(HDC &hdc, int width, int height) {
 			}
 		}
 
+		PText(hdc, Rate(n,width,height));
 		DeleteDC(hmemDC); // контекст отжирает уйму ресурсов, поэтому не забудем его грохнуть
 		DeleteObject(hbmpTarget);
 		hmemDC = NULL;
@@ -52,11 +84,6 @@ int Paint(HDC &hdc, int width, int height) {
 	return n;
 };
 
-double Rate(int n, int width, int height) {
-	int all = width * height;
-	double k = n * 100 / (double)all;
-	return k;
-};
 
 int main()
 {
@@ -70,21 +97,8 @@ int main()
 		int width = 800, height = 500;
 		int n = Paint(hdc,width,height);//вызываем функцию рисования звезд
 		double count = Rate(n, width, height);// количество звезд
-		HFONT hfont, myfont;//шрифт
-		myfont = CreateFont(38, 0, 0, 0, 700, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DRAFT_QUALITY, FIXED_PITCH | FF_ROMAN, "Algerian");//создаем шрифт
-		hfont = (HFONT)SelectObject(hdc, myfont);
-		SetTextColor(hdc, RGB(0, 0xff, 0));//задаем цвет текста
-		SetBkMode(hdc, 0);//фон закрашивается текущим цветом фона	
-		char t2[30] = "";
-		_gcvt(count, 4, t2);//конвертируем количество процентов в строку 
-		char t1[] = "The rate of star's fill is ";
-		char t3[] = "%";
-		char str[60] = "";
-		strcat_s(str, t1);
-		strcat_s(str, t2);
-		strcat_s(str, t3);
-		TextOut(hdc, 100, 120, str, ARRAYSIZE(str)); //освобождаем контекст
-		ReleaseDC(hwnd, hdc);
+		PText(hdc, count);
+		ReleaseDC(hwnd, hdc); //освобождаем контекст
 	}
 
 	_getch();
