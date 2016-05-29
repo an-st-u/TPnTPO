@@ -66,13 +66,6 @@ void MyForm::DoPaint(PaintEventArgs^ e){
 		//fig.move2(1, 1);
 	}
 	
-/*
-	wheel.show();
-	
-	for (int i = 0; i < 400; i++) {
-		wheel.move(1, 0);
-
-	}*/
 	
 }
 
