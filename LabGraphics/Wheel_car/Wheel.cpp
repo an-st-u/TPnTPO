@@ -2,89 +2,94 @@
 
 using namespace System::Drawing;
 
+const int angleStep = 1;
+
 
 //Wheel::Wheel(Graphics ^ g, int x, int y, int x1, int x2, int y1, int y2, Circle circle1, Line *objects): Circle(g,x,y,r), Line(g, x1, x2, y1, y2)
 
 
-
 Wheel::Wheel()
 {
-   unsigned int count = 0;
+
 }
 
 
-void Wheel::add1(Circle circle1, Line *b2)
+Wheel::Wheel(Graphics ^ g, int x, int y, int r, int angle)
 {
-    if(this->count >= 100) {
-        std::cout << "maximum count of elements reached" << std::endl;
-        //exit(1);
-        return;
-    }
-    this->objects[this->count++] = b2;
-
-	this->circle1 = circle1;
-
+	this->g = g;
+	this->x = x;
+	this->y = y;
+	this->r = r;
+	this->angle = angle;
+	//this->objects[this->count_lines++] = b2;
 }
+
 
 
 void Wheel::hide()
 {
+	//this->circle1.show();
 
-	this->circle1.hide();
-
-	for(unsigned i = 0; i < this->count; i++) {
+	/*for(unsigned i = 0; i < this->count_lines; i++) {
         this->objects[i]->hide();
     }
 
-	this->objects[this->count++];
+	this->objects[this->count_lines++];*/
+
+	Pen^ myPen = gcnew Pen(Color::White);
+	g->DrawLine(myPen, (int)(x - (r / 2)*cos(angle* PI/ 180) + r / 2), y - (r / 2)*sin(angle* PI/ 180) + r / 2, x + (r / 2)*cos(angle* PI/ 180) + r / 2, y + (r / 2)*sin(angle* PI/ 180) + r / 2);
 
 }
 
 void Wheel::show()
 {
 
-	this->circle1.show();
-
-	for(unsigned i = 0; i < this->count; i++) {
+	//this->circle1.show();
+/*
+	for(unsigned i = 0; i < this->count_lines; i++) {
         this->objects[i]->show();
     }
 
-	this->objects[this->count++];
+	this->objects[this->count_lines++];*/
+
+	Pen^ myPen = gcnew Pen(Color::Red);
+	g->DrawLine(myPen, (int)(x - (r / 2)*cos(angle* PI/ 180) + r / 2), y - (r / 2)*sin(angle* PI/ 180) + r / 2, x + (r / 2)*cos(angle* PI/ 180) + r / 2, y + (r / 2)*sin(angle* PI/ 180) + r / 2);
 
 }
 
-
-void Wheel::move1(int dx, int dy)
-{
-
-    for(unsigned i = 0; i < this->count; i++) {
-        this->objects[i]->move(dx, dy);
-    }
-
-}
 
 
 
 void Wheel::move(int dx, int dy)
 {
-
-    this->hide();
-
-
-	//this->x += ((dx) * 2 - r*sin((dx) * PI /(PI * r)));
-	//this->y += r - r*cos((dy) * PI / (PI * r));
-
-	this->x += dx;
-	this->y += dy;
-
-	this->x1 += dx;
-	this->y1 += dy;
-
-	this->x2 += dx;
-	this->y2 += dy;
-
-	this->show();
+	//this->circle1.hide();
+	this->hide();
+	this->move1(dx, dy);
+	x += dx;
+	y += dy;
+    this->show();
+	//this->circle1.show();
 }
+
+
+
+void Wheel::move1(int dx, int dy)
+{
+
+    /*for(unsigned i = 0; i < this->count_lines; i++) {
+        this->objects[i]->move(dx, dy);
+    }*/
+
+		angle += angleStep ;
+	if (angle > 360)
+		angle -= 360;
+
+}
+
+
+
+
+
 
 	/*this->x1 += ((dx) * 2 - r*sin((dx) * PI /(PI * r))); 
 	this->y1 += r - r*cos((dy) * PI / (PI * r)); 
@@ -167,4 +172,60 @@ void Wheel::_Line(Graphics ^ g, PointF start, PointF end)
             this.end = end;
             this.pen = pen;
         }
-*/
+
+
+
+const double angleStep = 1;
+
+// Wheel::Spoke(Graphics ^g, int x, int y, unsigned r, double startAngle)
+//{
+//	 this->g = g;
+//   this->x = x;
+//    this->y = y;
+//    this->r = r;
+//    this->angle = 3.14/180*startAngle;
+//}
+
+
+
+Wheel::Wheel()
+{
+  
+}
+
+Wheel::Wheel(Graphics ^ g, double x, double y, double r, int angle)
+{
+	this->g = g;
+	this->x = x;
+	this->y = y;
+	this->r = r;
+	this->angle = angle;
+}
+
+void Wheel::hide()
+{
+	Pen^ myPen = gcnew Pen(Color::White);
+	g->DrawLine(myPen, (int)(x - (r / 2)*cos(angle*3.14 / 180) + r / 2), y - (r / 2)*sin(angle*3.14 / 180) + r / 2, x + (r / 2)*cos(angle*3.14 / 180) + r / 2, y + (r / 2)*sin(angle*3.14 / 180) + r / 2);
+}
+
+void Wheel::show()
+{
+	Pen^ myPen = gcnew Pen(Color::Red);
+	g->DrawLine(myPen, (int)(x - (r / 2)*cos(angle*3.14 / 180) + r / 2), y - (r / 2)*sin(angle*3.14 / 180) + r / 2, x + (r / 2)*cos(angle*3.14 / 180) + r / 2, y + (r / 2)*sin(angle*3.14 / 180) + r / 2);
+}
+
+void Wheel::move(int dx, int dy)
+{
+	this->hide();
+	this->rotate();
+	x += dx;
+	y += dy;
+    this->show();
+}
+
+void Wheel::rotate()
+{
+	angle += angleStep;
+	if (angle > 360)
+		angle -= 360;
+}*/
