@@ -3,30 +3,33 @@
 #include "line.h"
 #include <cmath> 
 #define PI 3.14159265 
-#define MAX_RANGS_COUNT 100
+#define MAX_RANGS_COUNT_LINES 10
 
 using namespace System::Drawing;
 
-class Wheel : public Circle, public Line
+class Wheel : public Circle//, public Line
 {
 
-		unsigned int count;
+		int count_lines;
+		int angle;
 
 public:
 
-	Line *objects[MAX_RANGS_COUNT];
+	Line *objects[MAX_RANGS_COUNT_LINES];
 	Circle circle1;
-
 	Wheel();
 
-	void add1(Circle circle1, Line *b2);
+	//void add1(Circle circle1, Line *b2);
 	
-	
-    void hide();
-    void show();
 
-	void move(int dx, int dy);
+	Wheel(Graphics ^ g, int x, int y, int r, int count_lines);
+
+
+	virtual void hide();
+	virtual void show();
+	virtual void move(int dx, int dy);
 	void move1(int dx, int dy);
 
 
 };
+
