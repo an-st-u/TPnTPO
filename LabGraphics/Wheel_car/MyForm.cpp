@@ -46,24 +46,33 @@ void MyForm::DoPaint(PaintEventArgs^ e){
 	
 	//fig.add(new Pixel(g,1,1));
 	//fig.add(new Rectgle(g, 10, 10, 10, 10)); // пока такая точка
-	//fig.add(new Circle(g, 50, 130, 50));          // заднее колесо
+//	fig.add(new Circle(g, 50, 130, 50));          // заднее колесо
 	fig.add(new Circle(g, 62, 142, 25));          // диск заднего колеса
-	fig.add(new Circle(g, 230, 130, 50));          // переднее колесо
+//	fig.add(new Circle(g, 230, 130, 50));          // переднее колесо
 	fig.add(new Circle(g, 242, 142, 25));          // переднее колесо
 	
-	wheel.add1(Circle(g, 50, 130, 50), new Line(g, 50, 155, 100, 155));
+	//wheel.add1(Circle(g, 50, 130, 50), new Line(g, 50, 155, 100, 155));
 
 
 	//fig.add(new Wheel(g, 50, 130, 50, 50, 155, 100, 155));
 			  //Draw lines to screen.
       //DrawLines( pen, points );
 
+	fig.add(new Wheel(g, 50, 130, 50, 0)); // крутящиеся спицы
+	fig.add(new Wheel(g, 50, 130, 50, 90));
+
+	fig.add(new Wheel(g, 230, 130, 50, 0));
+	fig.add(new Wheel(g, 230, 130, 50, 90));
+	//fig.add(new Wheel(g, 230, 130, 50, 45));
+
+
 
     fig.show();
+
 	
 	for (int i = 0; i < 400; i++) {
 		fig.move(1, 0);
-		//fig.move2(1, 1);
+		//wheel.move(1, 0);
 	}
 	
 	
