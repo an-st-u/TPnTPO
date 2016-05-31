@@ -26,53 +26,30 @@ void MyForm::DoPaint(PaintEventArgs^ e){
 	Graphics ^ g = e->Graphics;
 	g->Clear(Color::White);
 	Figure fig;
-	Wheel wheel;
 
-	fig.add(new Rectgle(g, 10, 10, 190, 140));  // РєСѓР·РѕРІ
-	fig.add(new Line(g, 200, 50, 200, 150));      // Р·Р°РґРЅСЏСЏ СЃС‚РµРЅРєР° РєР°Р±РёРЅС‹
-	fig.add(new Line(g, 200, 50, 250, 50));      // РєСЂС‹С€Р° РєР°Р±РёРЅС‹
-	fig.add(new Line(g, 250, 50, 270, 100));      // СЃС‚РѕР№РєР° РєСЂС‹С€Рё
-	fig.add(new Line(g, 270, 100, 310, 110));      // РєР°РїРѕС‚
-	fig.add(new Line(g, 310, 110, 310, 150));      // СЂРµС€РµС‚РєР° СЂР°РґРёР°С‚РѕСЂР°
-	fig.add(new Line(g, 200, 150, 310, 150));      // РїРѕР» РєР°Р±РёРЅС‹
-	fig.add(new Line(g, 210, 60, 245, 60));      // РѕРєРЅРѕ - РІРµСЂС…
-	fig.add(new Line(g, 210, 60, 210, 100));      // РѕРєРЅРѕ - Р·Р°РґРЅСЏСЏ С‡Р°СЃС‚СЊ
-	fig.add(new Line(g, 245, 60, 260, 100));      // РѕРєРЅРѕ - РїРµСЂРµРґРЅСЏСЏ С‡Р°СЃС‚СЊ
-	fig.add(new Line(g, 260, 100, 210, 100));      // РѕРєРЅРѕ - РЅРёР¶РЅСЏСЏ С‡Р°СЃС‚СЊ
-	fig.add(new Rectgle(g, 310, 140, 10, 10)); // Р±Р°РјРїРµСЂ
-	fig.add(new Line(g, 290, 115, 300, 115));      // РІРѕР·РґСѓС…РѕР·Р°Р±РѕСЂРЅРёРє 1
-	fig.add(new Line(g, 290, 120, 300, 120));      // РІРѕР·РґСѓС…РѕР·Р°Р±РѕСЂРЅРёРє 2
-	fig.add(new Line(g, 290, 125, 300, 125));      // РІРѕР·РґСѓС…РѕР·Р°Р±РѕСЂРЅРёРє 3
-	
-	//fig.add(new Pixel(g,1,1));
-	//fig.add(new Rectgle(g, 10, 10, 10, 10)); // РїРѕРєР° С‚Р°РєР°СЏ С‚РѕС‡РєР°
-//	fig.add(new Circle(g, 50, 130, 50));          // Р·Р°РґРЅРµРµ РєРѕР»РµСЃРѕ
-	fig.add(new Circle(g, 62, 142, 25));          // РґРёСЃРє Р·Р°РґРЅРµРіРѕ РєРѕР»РµСЃР°
-//	fig.add(new Circle(g, 230, 130, 50));          // РїРµСЂРµРґРЅРµРµ РєРѕР»РµСЃРѕ
-	fig.add(new Circle(g, 242, 142, 25));          // РїРµСЂРµРґРЅРµРµ РєРѕР»РµСЃРѕ
-	
-	//wheel.add1(Circle(g, 50, 130, 50), new Line(g, 50, 155, 100, 155));
+	fig.add(new Rectgle(g, 10, 10, 190, 140));  // кузов
+	fig.add(new Line(g, 200, 50, 200, 150));      // задняя стенка кабины
+	fig.add(new Line(g, 200, 50, 250, 50));      // крыша кабины
+	fig.add(new Line(g, 250, 50, 270, 100));      // стойка крыши
+	fig.add(new Line(g, 270, 100, 310, 110));      // капот
+	fig.add(new Line(g, 310, 110, 310, 150));      // решетка радиатора
+	fig.add(new Line(g, 200, 150, 310, 150));      // пол кабины
+	fig.add(new Line(g, 210, 60, 245, 60));      // окно - верх
+	fig.add(new Line(g, 210, 60, 210, 100));      // окно - задняя часть
+	fig.add(new Line(g, 245, 60, 260, 100));      // окно - передняя часть
+	fig.add(new Line(g, 260, 100, 210, 100));      // окно - нижняя часть
+	fig.add(new Rectgle(g, 310, 140, 10, 10)); // бампер
+	fig.add(new Line(g, 290, 115, 300, 115));      // воздухозаборник 1
+	fig.add(new Line(g, 290, 120, 300, 120));      // воздухозаборник 2
+	fig.add(new Line(g, 290, 125, 300, 125));      // воздухозаборник 3
 
+	fig.add(new Wheel(g, 62, 142, 35));          // Заднее колесо
+	fig.add(new Wheel(g, 242, 142, 35));          // Переднее колесо
 
-	//fig.add(new Wheel(g, 50, 130, 50, 50, 155, 100, 155));
-			  //Draw lines to screen.
-      //DrawLines( pen, points );
+	fig.show();
 
-	fig.add(new Wheel(g, 50, 130, 50, 0)); // РєСЂСѓС‚СЏС‰РёРµСЃСЏ СЃРїРёС†С‹
-	fig.add(new Wheel(g, 50, 130, 50, 90));
-
-	fig.add(new Wheel(g, 230, 130, 50, 0));
-	fig.add(new Wheel(g, 230, 130, 50, 90));
-	//fig.add(new Wheel(g, 230, 130, 50, 45));
-
-
-
-    fig.show();
-
-	
 	for (int i = 0; i < 400; i++) {
 		fig.move(1, 0);
-		//wheel.move(1, 0);
 	}
 	
 	

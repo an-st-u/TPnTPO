@@ -7,28 +7,19 @@
 
 using namespace System::Drawing;
 
-class Wheel : public Circle//, public Line
+class Wheel : public Circle
 {
 
-		int count_lines;
-		int angle;
+	Line *objects = new Line[MAX_RANGS_COUNT_LINES];
+	int wheel_angle;
 
 public:
 
-	Line *objects[MAX_RANGS_COUNT_LINES];
-	Circle circle1;
 	Wheel();
-
-	//void add1(Circle circle1, Line *b2);
-	
-
-	Wheel(Graphics ^ g, int x, int y, int r, int count_lines);
-
-
+	Wheel(Graphics ^ g, int x, int y, int r);
 	virtual void hide();
 	virtual void show();
 	virtual void move(int dx, int dy);
-	void move1(int dx, int dy);
 
 
 };
