@@ -11,7 +11,7 @@ class Wheel : public Circle
 {
 
 	Line *objects;
-	int wheel_angle;
+	int angle;
 	int tire;
 
 public:

@@ -6,7 +6,7 @@ using namespace System::Drawing;
 Wheel::Wheel()
 {
 	this->objects = NULL;
-	this->wheel_angle = 0;
+	this->angle = 0;
 	this->tire = 5;
 }
 
@@ -14,10 +14,9 @@ Wheel::Wheel()
 Wheel::Wheel(Graphics ^ g, int x, int y, int r, int tire): Circle(g, x, y, r)
 {
 
-	this->wheel_angle = 0;
+	this->angle = 0;
 	this->tire = tire;
 	this->objects = new Line[MAX_RANGS_COUNT_LINES];
-	int angle = 0;
 	int shift = 180 / MAX_RANGS_COUNT_LINES;
 
 	for (int i = 0; i < MAX_RANGS_COUNT_LINES; i++) {
@@ -60,11 +59,11 @@ void Wheel::move(int dx, int dy) {
 	this->hide();
 	x += dx;
 	y += dy;
-	int angle = wheel_angle++;
 	int shift = 180 / MAX_RANGS_COUNT_LINES;
+	angle -= shift * MAX_RANGS_COUNT_LINES - 10;
 
-	if (wheel_angle > 360) {
-		wheel_angle = -360;
+	if (angle > 360) {
+		angle = -360;
 	}
 	
 	for (int i = 0; i < MAX_RANGS_COUNT_LINES; i++) {
