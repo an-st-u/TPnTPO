@@ -17,9 +17,8 @@ int randColor() {
 
 void PText(HDC &hdc, double count) {
 
-	static char str[40];
-	SetTextColor(hdc, RGB(0, 0, 0));
-	TextOut(hdc, 70, 510, str, ARRAYSIZE(str));
+	char str[40];
+	memset(str,NULL, 40);
 	HFONT hfont, myfont;//шрифт
 	myfont = CreateFont(38, 0, 0, 0, 700, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DRAFT_QUALITY, FIXED_PITCH | FF_ROMAN, "Algerian");//создаем шрифт
 	hfont = (HFONT)SelectObject(hdc, myfont);
