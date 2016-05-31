@@ -10,12 +10,11 @@ using namespace System::Drawing;
 class Wheel : public Circle
 {
 
+	Line *objects;
 	int wheel_angle;
 	int tire;
 
 public:
-
-	Line *objects;
 
 	Wheel();
 	Wheel(Graphics ^ g, int x, int y, int r, int tire);
@@ -24,7 +23,5 @@ public:
 	virtual void move(int dx, int dy);
 
 
-
 };
-
 
