@@ -3,7 +3,7 @@
 #include "line.h"
 #include <cmath> 
 #define PI 3.14159265 
-#define MAX_RANGS_COUNT_LINES 10
+#define MAX_RANGS_COUNT_LINES 6
 
 using namespace System::Drawing;
 

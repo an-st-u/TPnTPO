@@ -23,12 +23,7 @@ void Line::hide()
 {
 	Pen^ myPen = gcnew Pen(Color::White);
 	g2->DrawLine(myPen, this->x1, this->y1, this->x2, this->y2);
-/* //для graphic.h
-	int oldColor = getcolor();
-	setcolor(0);
-	line(x1, y1, x2, y2);
-	setcolor(oldColor);
-*/
+
 
 }
 
@@ -36,9 +31,7 @@ void Line::show()
 {
 	Pen^ myPen = gcnew Pen(Color::Red);
 	g2->DrawLine(myPen, this->x1, this->y1, this->x2, this->y2);
-/* //для graphic.h
-line(x1, y1, x2, y2);
-*/
+
 }
 
 void Line::move(int dx, int dy)

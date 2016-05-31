@@ -13,16 +13,12 @@ Wheel::Wheel()
 
 Wheel::Wheel(Graphics ^ g, int x, int y, int r, int tire): Circle(g, x, y, r)
 {
-	this->g = g;
-	this->x = x;
-	this->y = y;
-	this->r = r;
+
 	this->wheel_angle = 0;
 	this->tire = tire;
 
 	int angle = 0;
-	int shift = 360 / (MAX_RANGS_COUNT_LINES + 1);
-
+	int shift = 180 / MAX_RANGS_COUNT_LINES;
 
 	for (int i = 0; i < MAX_RANGS_COUNT_LINES; i++) {
 		this->objects[i] = Line(g, (x - (r / 2)*cos(angle*PI/180) + r / 2), y - (r / 2)*sin(angle*PI / 180) + r / 2, x + (r / 2)*cos(angle*PI/180) + r / 2, y + (r / 2)*sin(angle*PI / 180) + r / 2);
@@ -65,7 +61,7 @@ void Wheel::move(int dx, int dy) {
 	x += dx;
 	y += dy;
 	int angle = wheel_angle++;
-	int shift = 360 / (MAX_RANGS_COUNT_LINES + 1);
+	int shift = 180 / MAX_RANGS_COUNT_LINES;
 
 	if (wheel_angle > 360) {
 		wheel_angle = -360;
