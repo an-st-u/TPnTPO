@@ -1,22 +1,62 @@
-#ifndef LINE_H
-#define LINE_H
-#include "base.h"
-#include <iostream>
-#include "gcroot.h"
+#include "line.h"
 using namespace System::Drawing;
 
-class Line : public Base
+Line::Line()
 {
+   x1 = 0;
+   x2 = 0;
+   y1 = 0;
+   y2 = 0;
+}
 
-public:
-    int x1, y1;
-    int x2, y2;
-    gcroot<Graphics ^> g2; // для Windows Forms
 
-	Line();
-	Line(Graphics ^ g2, int x1, int y1, int x2, int y2); // для Windows Forms
-    virtual void hide();
-    virtual void show();
-    virtual void move(int dx, int dy);
-};
-#endif
+Line::Line(Graphics ^ g2, int x1, int y1, int x2, int y2)
+{
+    this->x1 = x1;
+    this->y1 = y1;
+    this->x2 = x2;
+    this->y2 = y2;
+    this->g2 = g2;
+}
+
+void Line::hide()
+{
+	Pen^ myPen = gcnew Pen(Color::White);
+	g2->DrawLine(myPen, this->x1, this->y1, this->x2, this->y2);
+
+
+}
+
+void Line::show()
+{
+	Pen^ myPen = gcnew Pen(Color::Red);
+	g2->DrawLine(myPen, this->x1, this->y1, this->x2, this->y2);
+
+}
+
+void Line::move(int dx, int dy)
+{
+    this->hide();
+    this->x1 += dx;
+    this->y1 += dy;
+    this->x2 += dx;
+    this->y2 += dy;
+    this->show();
+}
+
+void Line::rotate(int angle)
+{
+	int x, y;
+	double r;
+	x = (x1 - x2)/2;
+	y = 105;
+	//y = (y2 + y1)/2;
+	//r = (sqrt(pow((x2 - x1),2)+pow((y2 - y1),2)))/2;
+	r = 17.5;
+
+	this->x1 = x - r * cos(angle*PI/180) + r;
+	this->y1 = y - r * sin(angle*PI/180) + r;
+	this->x2 = x + r * cos(angle*PI/180) + r;
+	this->y2 = y + r * sin(angle*PI/180) + r;
+
+}
