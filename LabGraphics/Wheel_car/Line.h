@@ -1,3 +1,5 @@
+#ifndef LINE_H
+#define LINE_H
 #include "base.h"
 #include <iostream>
 #include "gcroot.h"
@@ -17,5 +19,4 @@ public:
     virtual void show();
     virtual void move(int dx, int dy);
 };
-
 #endif

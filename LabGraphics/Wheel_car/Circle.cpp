@@ -7,7 +7,7 @@ Circle::Circle()
 }
  
 
-Circle::Circle(Graphics ^ g, int x, int y, unsigned r): Pixel(g, x, y) // для Windows Forms
+Circle::Circle(Graphics ^ g, int x, int y, unsigned r): Pixel(g, x, y) 
 {
     this->x = x;
     this->y = y;
@@ -21,12 +21,6 @@ void Circle::hide()
 	Pen^ myPen = gcnew Pen(Color::White);
 	g->DrawEllipse(myPen, this->x, this->y, this->r, this->r);
 
-/* //для graphic.h
-	int oldColor = getcolor();
-	setcolor(0);
-	circle(x, y, r);
-	setcolor(oldColor);
-*/
 }
 
 void Circle::show()

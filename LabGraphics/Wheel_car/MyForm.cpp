@@ -43,8 +43,8 @@ void MyForm::DoPaint(PaintEventArgs^ e){
 	fig.add(new Line(g, 290, 120, 300, 120));      // воздухозаборник 2
 	fig.add(new Line(g, 290, 125, 300, 125));      // воздухозаборник 3
 
-	fig.add(new Wheel(g, 62, 142, 35));          // Заднее колесо
-	fig.add(new Wheel(g, 242, 142, 35));          // Переднее колесо
+	fig.add(new Wheel(g, 62, 142, 35, 5));          // Заднее колесо
+	fig.add(new Wheel(g, 242, 142, 35, 5));          // Переднее колесо
 
 	fig.show();
 

@@ -1,7 +1,7 @@
 #include "Rectgle.h"
 using namespace System::Drawing;
 Rectgle::Rectgle(Graphics ^ g, int x1, int y1, int x2, int y2) // для Windows Forms
-// Rectgle::Rectgle(int x1, int y1, int x2, int y2) // для graphics.h
+
 
 {
     this->x1 = x1;

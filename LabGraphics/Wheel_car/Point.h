@@ -15,9 +15,6 @@ public:
 	Pixel();
 	Pixel(Graphics ^ g, int x, int y); // для Windows Forms
 
-/* //для graphic.h
-Point(int x, int y);
-*/
 
     virtual void hide();
     virtual void show();
