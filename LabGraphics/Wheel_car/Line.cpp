@@ -43,3 +43,20 @@ void Line::move(int dx, int dy)
     this->y2 += dy;
     this->show();
 }
+
+void Line::rotate(int angle)
+{
+	int x, y;
+	double r;
+	x = (x1 - x2)/2;
+	y = 105;
+	//y = (y2 + y1)/2;
+	//r = (sqrt(pow((x2 - x1),2)+pow((y2 - y1),2)))/2;
+	r = 17.5;
+
+	this->x1 = x - r * cos(angle*PI/180) + r;
+	this->y1 = y - r * sin(angle*PI/180) + r;
+	this->x2 = x + r * cos(angle*PI/180) + r;
+	this->y2 = y + r * sin(angle*PI/180) + r;
+
+}
