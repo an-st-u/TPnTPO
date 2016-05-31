@@ -132,8 +132,8 @@ void MyPoint(HDC &hdc, HWND &hwnd, int density) {
 		BitBlt(hdc, 0, 0, width, height, hmemDC, 0, 0, SRCCOPY);
 		// освобождаем контекст
 		DeleteDC(hmemDC); // контекст отжирает уйму ресурсов, поэтому не забудем его грохнуть
-		DeleteObject(hbmpTarget);
 		hmemDC = NULL;
+		DeleteObject(hbmpTarget);
 		Sleep(33);
 	}
 }
