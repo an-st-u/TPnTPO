@@ -7,16 +7,18 @@ Wheel::Wheel()
 {
 	this->objects = NULL;
 	this->wheel_angle = 0;
+	this->tire = 5;
 }
 
 
-Wheel::Wheel(Graphics ^ g, int x, int y, int r): Circle(g, x, y, r)
+Wheel::Wheel(Graphics ^ g, int x, int y, int r, int tire): Circle(g, x, y, r)
 {
 	this->g = g;
 	this->x = x;
 	this->y = y;
 	this->r = r;
 	this->wheel_angle = 0;
+	this->tire = tire;
 
 	int angle = 0;
 	int shift = 360 / (MAX_RANGS_COUNT_LINES + 1);
@@ -36,6 +38,7 @@ void Wheel::hide()
 
 	Pen^ myPen = gcnew Pen(Color::White);
 	g->DrawEllipse(myPen, this->x, this->y, this->r, this->r);
+	g->DrawEllipse(myPen, this->x-tire, this->y-tire, this->r+2*tire, this->r+2*tire);
 	for (int i = 0; i < MAX_RANGS_COUNT_LINES; i++) {
 		this->objects[i].hide();
 	}
@@ -47,6 +50,7 @@ void Wheel::show()
 
 	Pen^ myPen = gcnew Pen(Color::Red);
 	g->DrawEllipse(myPen, this->x, this->y, this->r, this->r);
+	g->DrawEllipse(myPen, this->x - tire, this->y - tire, this->r + 2 * tire, this->r + 2 * tire);
 	for (int i = 0; i < MAX_RANGS_COUNT_LINES; i++) {
 		this->objects[i].show();
 	}
