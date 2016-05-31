@@ -23,9 +23,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 void MyForm::OnPaint(PaintEventArgs^ e) { DoPaint(e); }
 void MyForm::DoPaint(PaintEventArgs^ e){
+	
 	Graphics ^ g = e->Graphics;
 	g->Clear(Color::White);
-	Figure fig;
+	
+	Figure fig(100);
 
 	fig.add(new Rectgle(g, 10, 10, 190, 140));  // кузов
 	fig.add(new Line(g, 200, 50, 200, 150));      // задн€€ стенка кабины
@@ -42,13 +44,16 @@ void MyForm::DoPaint(PaintEventArgs^ e){
 	fig.add(new Line(g, 290, 115, 300, 115));      // воздухозаборник 1
 	fig.add(new Line(g, 290, 120, 300, 120));      // воздухозаборник 2
 	fig.add(new Line(g, 290, 125, 300, 125));      // воздухозаборник 3
-
 	fig.add(new Wheel(g, 62, 142, 35, 5));          // «аднее колесо
-	fig.add(new Wheel(g, 242, 142, 35, 5));          // ѕереднее колесо
-
+	fig.add(new Wheel(g, 242, 142, 35, 5));         // ѕереднее колесо
 	fig.show();
 
-	for (int i = 0; i < 400; i++) {
+	Line A(g, 0, 183, 800, 183);      // земл€
+	A.show();
+	Rectgle B(g, 790, 120, 10, 63);
+	B.show();
+
+	for (int i = 0; i < 460; i++) {
 		fig.move(1, 0);
 	}
 	

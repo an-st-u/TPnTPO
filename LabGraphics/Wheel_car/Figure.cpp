@@ -2,6 +2,15 @@
 
 Figure::Figure()
 {
+
+	this->objects = new Base*[MAX_FIGURES_COUNT];
+	this->count = 0;
+}
+
+Figure::Figure(int quan)
+{
+
+	this->objects = new Base*[quan];
 	this->count = 0;
 }
 
@@ -18,7 +27,6 @@ void Figure::add(Base *b)
 {
 	if (this->count >= 100) {
 		std::cout << "maximum count of elements reached" << std::endl;
-		//exit(1);
 		return;
 	}
 	this->objects[this->count++] = b;

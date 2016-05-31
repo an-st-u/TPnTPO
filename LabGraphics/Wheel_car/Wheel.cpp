@@ -60,7 +60,7 @@ void Wheel::move(int dx, int dy) {
 	x += dx;
 	y += dy;
 	int shift = 180 / MAX_RANGS_COUNT_LINES;
-	angle -= shift * MAX_RANGS_COUNT_LINES - 10;
+	angle -= shift * MAX_RANGS_COUNT_LINES - 3 * dx;
 
 	if (angle > 360) {
 		angle = -360;

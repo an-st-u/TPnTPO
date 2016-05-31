@@ -106,9 +106,9 @@ namespace SECOND_WinForms {
 			this->SuspendLayout();
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(800, 600);
-			this->Name = L"MyForm";
-			this->Text = L"MyForm";
+			this->ClientSize = System::Drawing::Size(800, 400);
+			this->Name = L"Truck";
+			this->Text = L"Truck";
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::MyForm_Paint);
 			this->ResumeLayout(false);
 

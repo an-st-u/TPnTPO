@@ -5,13 +5,14 @@
 #include "Base.h"
 #define MAX_FIGURES_COUNT 100
 
-class Figure : public Base
+class Figure: public Base
 {
 	unsigned int count;
-	Base *objects[MAX_FIGURES_COUNT];
+	Base **objects;
 
 public:
 	Figure();
+	Figure(int quan);
 	~Figure();
 	void add(Base *b);
 	void show();
